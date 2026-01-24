@@ -1,35 +1,36 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Link, Routes, Route } from "react-router-dom";
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+function ExplorePage() {
+  return <h2>Explore</h2>;
 }
 
-export default App
+function BookingsPage() {
+  return <h2>My Bookings</h2>;
+}
+
+function ProfilePage() {
+  return <h2>Profile</h2>;
+}
+
+export default function App() {
+  return (
+    <div style={{ maxWidth: 1000, margin: "0 auto", padding: 24 }}>
+      <header style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <h1 style={{ margin: 0 }}>Travel Booker</h1>
+        <nav style={{ display: "flex", gap: 12 }}>
+          <Link to="/">Explore</Link>
+          <Link to="/bookings">My Bookings</Link>
+          <Link to="/profile">Profile</Link>
+        </nav>
+      </header>
+
+      <main style={{ marginTop: 24 }}>
+        <Routes>
+          <Route path="/" element={<ExplorePage />} />
+          <Route path="/bookings" element={<BookingsPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+        </Routes>
+      </main>
+    </div>
+  );
+}
