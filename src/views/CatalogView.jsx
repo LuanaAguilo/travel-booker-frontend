@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getExperiences } from '../services/api';
 import ExperienceGrid from '../components/ExperienceGrid';
+import './HomeView.css';
 
 const categories = [
   { label: 'Gastronomy', value: 'Gastronomy' },
@@ -46,7 +47,9 @@ export default function CatalogView() {
         ))}
       </div>
       {loading ? <p>Loading…</p> : error ? <p style={{ color: 'crimson' }}>{error}</p> : (
-        <ExperienceGrid experiences={filtered} />
+        <div className="horizontal-flex">
+          <ExperienceGrid experiences={filtered} gridClassName="horizontal-flex" />
+        </div>
       )}
     </div>
   );
