@@ -17,22 +17,7 @@ export default function HomeView() {
 
   return (
     <div>
-      <section style={{
-        background: 'linear-gradient(100deg, var(--color-header) 60%, var(--color-accent) 100%)',
-        color: 'var(--color-text-light)',
-        padding: '3rem 1rem',
-        borderRadius: '1.5rem',
-        margin: '2rem auto',
-        textAlign: 'center',
-        maxWidth: 700,
-        boxShadow: '0 2px 24px rgba(123,30,58,0.12)',
-        border: '2px solid var(--color-accent)',
-      }}>
-        <h1 style={{ fontSize: '2.5rem', margin: 0, color: 'var(--color-accent)', textShadow: '0 2px 8px rgba(123,30,58,0.15)' }}>MadVentures</h1>
-        <p style={{ fontSize: '1.2rem', color: 'var(--color-text-light)', margin: '1rem 0 0 0', fontWeight: 500 }}>
-          Discover, book, and experience the best of Madrid.
-        </p>
-      </section>
+      {/* Hero eliminado. Solo grid de experiencias destacadas. */}
       <section>
         <h2 style={{ color: '#b71c1c', marginBottom: '1rem' }}>Featured Experiences</h2>
         {loading ? <p>Loading…</p> : error ? <p style={{ color: 'crimson' }}>{error}</p> : (
