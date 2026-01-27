@@ -1,0 +1,28 @@
+.grid {
+  gap: 2rem;
+  margin: 2rem 0;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+}
+.empty {
+  color: #b71c1c;
+  text-align: center;
+  margin: 2rem 0;
+  font-size: 1.1em;
+}

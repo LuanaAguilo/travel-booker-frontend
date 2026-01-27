@@ -1,0 +1,21 @@
+:root {
+  --color-bg: #f8f6f3;
+  --color-header: #7B1E3A;
+  --color-primary: #7B1E3A;
+  --color-secondary: #8B5C2A;
+  --color-accent: #C9A66B;
+  --color-black: #181818;
+  --color-card-bg: #fff;
+  --color-card-border: #e0d6ce;
+  --color-badge-gastronomy: #7B1E3A;
+  --color-badge-culture: #8B5C2A;
+  --color-badge-adventure: #C9A66B;
+  --color-text: #181818;
+  --color-text-light: #fff;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+}

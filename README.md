@@ -1,16 +1,29 @@
-# React + Vite
+#Introduction
+Now that you are familiar with React and know how to integrate a React app with a back-end API, you are now ready to create a complete React application for your 2nd project.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+During this project, you will be creating a React application and integrating it with either your own mock backend or an external API. This means you’ll learn what it takes to make a functional application from the ground up yourself and practice it in a project. This project will be carried out individually or in a group, as defined by the teaching staff.
 
-Currently, two official plugins are available:
+We designed the project requirements to help you develop a working proficiency with React. At the end of the project, you will have a fully functional React application that you will showcase in your resume to demonstrate your skills and knowledge.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+In addition to the technical requirements, you will also be practicing Agile methodologies and participating in Agile rituals during the project's development, such as daily stand-ups, which you are expected to attend.
 
-## React Compiler
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Technical Requirements
+Your project must meet the following technical requirements:
 
-## Expanding the ESLint configuration
+Create a Single Page Application (SPA), using React, consisting of multiple views.
+The React application should be integrated with either a mock backend or an external API and should perform all CRUD (Create, Read, Update, Delete) operations on that API.
+Your project should be deployed online, allowing anyone to access and use your app.
+Have your project available on a GitHub repository. If your project includes a mock back-end API you should have two GitHub repositories - one for your front-end React application and the other for your back-end API.
+Have at least 2 commits per day on your project repository that you worked on.
+As a final step, check all the features outlined in points 1 - 3 and ensure they are implemented and working ahead of delivery.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Deliverables
+You must submit the following deliverables in order for your project to be deemed complete:
+
+A working app that meets all technical requirements, built by you.
+A working app deployed and accessible online.
+The URLs of your GitHub repositories (frontend and mock backend).
+The URL to the deployed React app.
+The URL of the slides for your project presentation.
+Present and demo your app during the Project presentations.
