@@ -1,29 +1,99 @@
-#Introduction
-Now that you are familiar with React and know how to integrate a React app with a back-end API, you are now ready to create a complete React application for your 2nd project.
 
-During this project, you will be creating a React application and integrating it with either your own mock backend or an external API. This means you’ll learn what it takes to make a functional application from the ground up yourself and practice it in a project. This project will be carried out individually or in a group, as defined by the teaching staff.
+# 🥘🍷 MadVentures – Madrid Experience Booking App
 
-We designed the project requirements to help you develop a working proficiency with React. At the end of the project, you will have a fully functional React application that you will showcase in your resume to demonstrate your skills and knowledge.
+Book and live the best experiences in Madrid! 
+Explore gastronomy, culture, and adventure with a premium interface inspired by wine, wood, and authentic Madrid vibes.
 
-In addition to the technical requirements, you will also be practicing Agile methodologies and participating in Agile rituals during the project's development, such as daily stand-ups, which you are expected to attend.
+---
 
+## ✨ Features
 
-Technical Requirements
-Your project must meet the following technical requirements:
+- **SPA in React** with smooth routing and navigation
+- **Filterable catalog** by categories: Gastronomy, Culture, Adventure
+- **Horizontal experience grid** (premium carousel style)
+- **Patanegra & wine-inspired design**: wine, oak, gold, and black tones
+- **Full CRUD** for bookings
+- **Mock backend (json-server)**, easy to use and customize
+- **Responsive**: perfect on mobile, tablet, and desktop
 
-Create a Single Page Application (SPA), using React, consisting of multiple views.
-The React application should be integrated with either a mock backend or an external API and should perform all CRUD (Create, Read, Update, Delete) operations on that API.
-Your project should be deployed online, allowing anyone to access and use your app.
-Have your project available on a GitHub repository. If your project includes a mock back-end API you should have two GitHub repositories - one for your front-end React application and the other for your back-end API.
-Have at least 2 commits per day on your project repository that you worked on.
-As a final step, check all the features outlined in points 1 - 3 and ensure they are implemented and working ahead of delivery.
+---
 
-Deliverables
-You must submit the following deliverables in order for your project to be deemed complete:
+## 🚀 Demo
 
-A working app that meets all technical requirements, built by you.
-A working app deployed and accessible online.
-The URLs of your GitHub repositories (frontend and mock backend).
-The URL to the deployed React app.
-The URL of the slides for your project presentation.
-Present and demo your app during the Project presentations.
+- [Live app (example)](https://yourdomain.com) <!-- Change to your real URL -->
+- [Frontend on GitHub](https://github.com/youruser/travel-booker-frontend)
+- [Backend on GitHub](https://github.com/youruser/travel-booker-backend)
+
+---
+
+## 🖥️ Local setup
+
+```bash
+# Clone frontend
+git clone https://github.com/youruser/travel-booker-frontend.git
+cd travel-booker-frontend
+npm install
+
+# Clone and start backend (in another terminal)
+git clone https://github.com/youruser/travel-booker-backend.git
+cd travel-booker-backend
+npm install
+npm run dev
+
+# Start frontend
+npm run dev
+```
+
+- The frontend connects by default to `http://localhost:4000` (configurable in `.env`).
+
+---
+
+## 🗂️ Main structure
+
+- `src/components/` – Cards, grids, and reusable UI
+- `src/views/` – Main views: Home, Catalog, Bookings, Profile
+- `src/services/api.js` – Backend connection logic
+- `src/theme.css` – Premium color palette
+
+---
+
+## 🖼️ Customizing experiences
+
+Edit your backend (`db.json` or `experiences.json`) and add free images in the `"image"` field of each experience.  
+Example:
+```json
+{
+	"id": 1,
+	"title": "Tapas Tour",
+	"category": "Gastronomy",
+	"price": 45,
+	"image": "https://images.unsplash.com/photo-1656423521731-9665583f100c?q=80&w=2072&auto=format&fit=crop",
+	"description": "Discover the best tapas in Madrid",
+	"city": "Madrid"
+}
+```
+
+---
+
+## 🛠️ Tech stack
+
+- React 19 + Vite
+- React Router v6
+- CSS Modules + CSS Variables
+- json-server (mock API)
+- Unsplash/Pexels for free images
+
+---
+
+## 📦 Useful scripts
+
+- `npm run dev` – Start frontend in dev mode
+- `npm run build` – Build for production
+- `npm run lint` – Lint code
+
+---
+
+## 📄 License
+
+MIT.  
+Images from Unsplash/Pexels.
