@@ -1,28 +1,25 @@
 .grid {
-  gap: 2rem;
-  margin: 2rem 0;
-  width: 100%;
-  box-sizing: border-box;
-  overflow-x: hidden;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 26px;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
   .grid {
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1.2rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 680px) {
   .grid {
     grid-template-columns: 1fr;
-    gap: 1rem;
-    margin: 1rem 0;
+    gap: 18px;
   }
 }
+
 .empty {
-  color: #b71c1c;
-  text-align: center;
-  margin: 2rem 0;
-  font-size: 1.1em;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.2px;
+  padding: 14px 0;
 }

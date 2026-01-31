@@ -31,18 +31,21 @@ export default function App() {
   }, []);
 
   const linkBase = {
-    color: "#f2f2f2",
-    fontWeight: 500,
+    color: "rgba(255,255,255,0.88)",
+    fontWeight: 400,
     textDecoration: "none",
-    letterSpacing: 0.3,
-    padding: "8px 10px",
+    letterSpacing: 1.2,
+    padding: "10px 14px",
     borderRadius: 999,
     transition: "all 160ms ease",
+    textTransform: "uppercase",
+    fontSize: 12,
   };
 
   const activeLink = {
     background: "rgba(255,255,255,0.06)",
-    border: "1px solid rgba(255,255,255,0.12)",
+    border: "1px solid rgba(255,255,255,0.14)",
+    color: "#ffffff",
   };
 
   const navLinkStyle = (to) => ({
@@ -66,32 +69,44 @@ export default function App() {
       <header
         style={{
           width: "100%",
-          background: "rgba(14,14,16,0.96)",
-          borderBottom: "1px solid #232328",
-          padding: "18px 16px",
+          background: "rgba(14,14,16,0.92)",
+          borderBottom: "1px solid rgba(255,255,255,0.08)",
+          padding: "22px 16px 18px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          position: "static",
+          position: "sticky",
+          top: 0,
+          zIndex: 10,
+          backdropFilter: "blur(10px)",
+          WebkitBackdropFilter: "blur(10px)",
         }}
       >
         <h1
           style={{
             margin: 0,
             color: "#ffffff",
-            fontSize: "1.9rem",
-            fontWeight: 500,
-            letterSpacing: 1,
+            fontSize: "1.85rem",
+            fontWeight: 300,
+            letterSpacing: 2.6,
           }}
         >
-          Select Madrid
+          Madrid Signature
         </h1>
 
-        <nav style={{ display: "flex", gap: 16, marginTop: 14 }}>
-          <Link style={navLinkStyle("/")} to="/">Home</Link>
-          <Link style={navLinkStyle("/catalog")} to="/catalog">Catalog</Link>
-          <Link style={navLinkStyle("/bookings")} to="/bookings">My Bookings</Link>
-          <Link style={navLinkStyle("/profile")} to="/profile">Profile</Link>
+        <nav style={{ display: "flex", gap: 18, marginTop: 14 }}>
+          <Link style={navLinkStyle("/")} to="/">
+            Home
+          </Link>
+          <Link style={navLinkStyle("/catalog")} to="/catalog">
+            Catalog
+          </Link>
+          <Link style={navLinkStyle("/bookings")} to="/bookings">
+            My Bookings
+          </Link>
+          <Link style={navLinkStyle("/profile")} to="/profile">
+            Profile
+          </Link>
         </nav>
       </header>
 
@@ -99,9 +114,9 @@ export default function App() {
         style={{
           flex: 1,
           width: "100%",
-          maxWidth: "1200px",
-          margin: "30px auto",
-          padding: "0 12px",
+          maxWidth: "1180px",
+          margin: "26px auto",
+          padding: "0 14px",
         }}
       >
         <Routes>

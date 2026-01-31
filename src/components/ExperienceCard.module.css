@@ -61,50 +61,53 @@
   text-align: center;
 }
 .card {
-  background: rgba(24, 24, 24, 0.98);
-  border-radius: 1rem;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
   overflow: hidden;
-  transition: transform 0.15s;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.07);
   cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
 }
 
 .card:hover {
-  transform: translateY(-4px) scale(1.01);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  transform: translateY(-3px);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 14px 50px rgba(0, 0, 0, 0.45);
 }
 
-/* Taller image so it crops less awkwardly */
+/* IMAGE — smaller + more luxury catalog feel */
+.imageWrap {
+  height: 200px;
+  width: 100%;
+  overflow: hidden;
+  background: #000;
+}
+
 .image {
   width: 100%;
-  height: 260px; /* was ~180 */
+  height: 100%;
   object-fit: cover;
-  object-position: center;
+  display: block;
 }
 
+/* TEXT area BELOW photo */
 .content {
-  padding: 1rem;
-  color: var(--text-main);
+  padding: 18px 18px 16px;
+  color: rgba(255, 255, 255, 0.92);
 }
 
-.badge {
-  display: inline-block;
-  padding: 0.25em 0.75em;
-  border-radius: 999px;
-  font-size: 0.78em;
-  font-weight: 600;
-  margin-bottom: 0.55em;
-  letter-spacing: 0.6px;
+/* CATEGORY — quiet, spaced */
+.category {
+  font-size: 11px;
+  letter-spacing: 2.2px;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.82);
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  opacity: 0.65;
+  margin-bottom: 8px;
 }
 
+/* TITLE — thin + elegant */
 .title {
+<<<<<<< HEAD
   margin: 0.35em 0 0.25em 0;
   font-size: 1.15em;
   color: #9fa2a6;
@@ -116,4 +119,32 @@
   color: #9fa2a6;
   font-weight: 500;
   margin: 0;
+=======
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+  margin: 0 0 12px 0;
+  line-height: 1.25;
+}
+
+/* META row */
+.metaRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.price {
+  font-size: 13px;
+  opacity: 0.85;
+  letter-spacing: 0.2px;
+}
+
+.city {
+  font-size: 12px;
+  opacity: 0.55;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+>>>>>>> f66fc9b (UI polish: cards + layout)
 }

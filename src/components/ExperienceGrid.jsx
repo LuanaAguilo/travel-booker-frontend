@@ -24,3 +24,4 @@ export default function ExperienceGrid({ experiences, onCardClick, onBook, booki
     </div>
   );
 }
+
