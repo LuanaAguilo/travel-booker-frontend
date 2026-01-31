@@ -1,3 +1,11 @@
+.description {
+  color: #9fa2a6;
+  font-size: 1rem;
+  margin: 0.5em 0 0.7em 0;
+  line-height: 1.5;
+  min-height: 2.2em;
+  letter-spacing: 0.01em;
+}
 .bookingBtn {
   margin-top: 0.7em;
   background: var(--primary-color, #e53935);
@@ -99,13 +107,13 @@
 .title {
   margin: 0.35em 0 0.25em 0;
   font-size: 1.15em;
-  color: var(--text-main);
+  color: #9fa2a6;
   font-weight: 600;
   letter-spacing: -0.2px;
 }
 
 .price {
-  color: var(--text-soft);
+  color: #9fa2a6;
   font-weight: 500;
   margin: 0;
 }

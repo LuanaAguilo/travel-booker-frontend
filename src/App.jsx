@@ -72,9 +72,7 @@ export default function App() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          position: "sticky",
-          top: 0,
-          zIndex: 10,
+          position: "static",
         }}
       >
         <h1

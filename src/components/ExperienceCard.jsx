@@ -16,6 +16,9 @@ export default function ExperienceCard({ experience, onClick, onBook, onCancel, 
       <div className={styles.content}>
         <span className={badgeClass}>{category || 'Experience'}</span>
         <h3 className={styles.title}>{experience.title}</h3>
+        {experience.description && (
+          <div className={styles.description}>{experience.description}</div>
+        )}
         {isBooking ? (
           <button
             className={styles.bookingBtn}
