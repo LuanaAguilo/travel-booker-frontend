@@ -1,7 +1,7 @@
 import ExperienceCard from "./ExperienceCard.jsx";
 import styles from "./ExperienceGrid.module.css";
 
-export default function ExperienceGrid({ experiences, onCardClick, gridClassName }) {
+export default function ExperienceGrid({ experiences, onCardClick, onBook, bookings = [], gridClassName }) {
   const safeExperiences = Array.isArray(experiences)
     ? experiences.filter((exp) => exp && typeof exp === "object" && exp.title)
     : [];
@@ -17,6 +17,8 @@ export default function ExperienceGrid({ experiences, onCardClick, gridClassName
           key={exp.id ?? exp.title}
           experience={exp}
           onClick={() => onCardClick?.(exp)}
+          onBook={onBook}
+          isBooked={bookings.some(b => b.id === exp.id)}
         />
       ))}
     </div>

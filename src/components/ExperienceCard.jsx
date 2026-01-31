@@ -1,6 +1,6 @@
 import styles from './ExperienceCard.module.css';
 
-export default function ExperienceCard({ experience, onClick }) {
+export default function ExperienceCard({ experience, onClick, onBook, onCancel, isBooking, isBooked }) {
   const category = experience.category || "";
   let badgeClass = styles.badge;
   if (category && styles[category.toLowerCase()]) {
@@ -16,7 +16,30 @@ export default function ExperienceCard({ experience, onClick }) {
       <div className={styles.content}>
         <span className={badgeClass}>{category || 'Experience'}</span>
         <h3 className={styles.title}>{experience.title}</h3>
-        <p className={styles.price}>€{experience.price}</p>
+        {isBooking ? (
+          <button
+            className={styles.bookingBtn}
+            onClick={e => { e.stopPropagation(); onCancel?.(experience); }}
+          >
+            Cancel Booking
+          </button>
+        ) : (
+          isBooked ? (
+            <span className={styles.bookedLabel}>Booked</span>
+          ) : (
+            <>
+              <p className={styles.price}>€{experience.price}</p>
+              {onBook && (
+                <button
+                  className={styles.bookingBtn}
+                  onClick={e => { e.stopPropagation(); onBook(experience); }}
+                >
+                  Book
+                </button>
+              )}
+            </>
+          )
+        )}
       </div>
     </div>
   );

@@ -1,0 +1,73 @@
+/* GlobalStyles.css - Dark Premium para Mad Madrid */
+:root {
+  --background-main: #0D0D0D;
+  --surface-color: #1A1A1A;
+  --primary-color: #E53935;
+  --text-main: #FFFFFF;
+  --text-secondary: #A0A0A0;
+  --border-color: #2A2A2A;
+  --shadow-dark: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+body {
+  background: var(--background-main);
+  color: var(--text-main);
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  margin: 0;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-main);
+  font-weight: 700;
+  margin: 0 0 0.5em 0;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: #fff;
+}
+
+button {
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background: var(--surface-color);
+  color: var(--text-main);
+  font-weight: 600;
+  padding: 0.6em 1.2em;
+  transition: border-color 0.2s, background 0.2s;
+  box-shadow: var(--shadow-dark);
+}
+
+button:hover {
+  border-color: var(--primary-color);
+  background: #222;
+}
+
+input, select, textarea {
+  background: var(--surface-color);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 0.5em 1em;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--border-color);
+  margin: 2em 0;
+}
+
+::-webkit-scrollbar {
+  background: var(--surface-color);
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 8px;
+}

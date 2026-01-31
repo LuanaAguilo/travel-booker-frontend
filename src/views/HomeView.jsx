@@ -3,7 +3,7 @@ import { getExperiences } from "../services/api";
 import ExperienceGrid from "../components/ExperienceGrid";
 import "./HomeView.css";
 
-export default function HomeView() {
+export default function HomeView({ onBook, bookings }) {
   const [experiences, setExperiences] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -35,7 +35,7 @@ export default function HomeView() {
           <p style={{ color: "crimson" }}>{error}</p>
         ) : (
           <div className="featured-horizontal">
-            <ExperienceGrid experiences={experiences.slice(0, 8)} />
+            <ExperienceGrid experiences={experiences.slice(0, 8)} onBook={onBook} bookings={bookings} />
           </div>
         )}
       </section>

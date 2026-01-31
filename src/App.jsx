@@ -1,7 +1,10 @@
 import { Link, Routes, Route, useLocation } from "react-router-dom";
 import "./theme.css";
+
 import HomeView from "./views/HomeView";
 import CatalogView from "./views/CatalogView";
+import BookingsView from "./views/BookingsView";
+import { useState, useCallback } from "react";
 
 function BookingsPage() {
   return <h2 style={{ color: "var(--color-text-light)" }}>My Bookings</h2>;
@@ -12,6 +15,20 @@ function ProfilePage() {
 
 export default function App() {
   const location = useLocation();
+  const [bookings, setBookings] = useState([]);
+
+  // Add booking if not already booked
+  const handleBook = useCallback((experience) => {
+    setBookings((prev) => {
+      if (prev.some((b) => b.id === experience.id)) return prev;
+      return [...prev, experience];
+    });
+  }, []);
+
+  // Remove booking by id
+  const handleCancelBooking = useCallback((experience) => {
+    setBookings((prev) => prev.filter((b) => b.id !== experience.id));
+  }, []);
 
   const linkBase = {
     color: "#f2f2f2",
@@ -90,9 +107,9 @@ export default function App() {
         }}
       >
         <Routes>
-          <Route path="/" element={<HomeView />} />
-          <Route path="/catalog" element={<CatalogView />} />
-          <Route path="/bookings" element={<BookingsPage />} />
+          <Route path="/" element={<HomeView onBook={handleBook} bookings={bookings} />} />
+          <Route path="/catalog" element={<CatalogView onBook={handleBook} bookings={bookings} />} />
+          <Route path="/bookings" element={<BookingsView bookings={bookings} onCancelBooking={handleCancelBooking} />} />
           <Route path="/profile" element={<ProfilePage />} />
         </Routes>
       </main>

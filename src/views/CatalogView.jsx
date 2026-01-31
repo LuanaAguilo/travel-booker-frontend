@@ -9,7 +9,7 @@ const categories = [
   { label: 'Adventure', value: 'Adventure' },
 ];
 
-export default function CatalogView() {
+export default function CatalogView({ onBook, bookings }) {
   const [experiences, setExperiences] = useState([]);
   const [filter, setFilter] = useState('Gastronomy');
   const [loading, setLoading] = useState(true);
@@ -48,7 +48,7 @@ export default function CatalogView() {
       </div>
       {loading ? <p>Loading…</p> : error ? <p style={{ color: 'crimson' }}>{error}</p> : (
         <div className="horizontal-flex">
-          <ExperienceGrid experiences={filtered} gridClassName="horizontal-flex" />
+          <ExperienceGrid experiences={filtered} gridClassName="horizontal-flex" onBook={onBook} bookings={bookings} />
         </div>
       )}
     </div>
