@@ -1,39 +1,61 @@
-
-import { Link, Routes, Route } from "react-router-dom";
+import { Link, Routes, Route, useLocation } from "react-router-dom";
 import "./theme.css";
 import HomeView from "./views/HomeView";
 import CatalogView from "./views/CatalogView";
-// Placeholders for future views
+
 function BookingsPage() {
-  return <h2>My Bookings</h2>;
+  return <h2 style={{ color: "var(--color-text-light)" }}>My Bookings</h2>;
 }
 function ProfilePage() {
-  return <h2>Profile</h2>;
+  return <h2 style={{ color: "var(--color-text-light)" }}>Profile</h2>;
 }
 
 export default function App() {
+  const location = useLocation();
+
+  const linkBase = {
+    color: "#f2f2f2",
+    fontWeight: 500,
+    textDecoration: "none",
+    letterSpacing: 0.3,
+    padding: "8px 10px",
+    borderRadius: 999,
+    transition: "all 160ms ease",
+  };
+
+  const activeLink = {
+    background: "rgba(255,255,255,0.06)",
+    border: "1px solid rgba(255,255,255,0.12)",
+  };
+
+  const navLinkStyle = (to) => ({
+    ...linkBase,
+    ...(location.pathname === to ? activeLink : {}),
+  });
+
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: 'var(--color-black)',
-      display: 'flex',
-      flexDirection: 'column',
-      width: '100vw',
-      maxWidth: '100vw',
-      overflowX: 'hidden',
-    }}>
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "#0e0e10",
+        display: "flex",
+        flexDirection: "column",
+        width: "100vw",
+        overflowX: "hidden",
+        fontFamily:
+          "Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif",
+      }}
+    >
       <header
         style={{
-          width: '100%',
-          minWidth: 0,
-          background: 'var(--color-header)',
-          boxShadow: '0 2px 8px rgba(30,30,30,0.04)',
-          padding: '0 16px',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          position: 'sticky',
+          width: "100%",
+          background: "rgba(14,14,16,0.96)",
+          borderBottom: "1px solid #232328",
+          padding: "18px 16px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          position: "sticky",
           top: 0,
           zIndex: 10,
         }}
@@ -41,52 +63,32 @@ export default function App() {
         <h1
           style={{
             margin: 0,
-            color: 'var(--color-accent)',
-            fontSize: '2.2rem',
-            letterSpacing: -2,
-            whiteSpace: 'nowrap',
-            minWidth: 0,
-            textAlign: 'center',
-            fontWeight: 800,
-            textShadow: '0 1px 2px rgba(30,30,30,0.10)'
+            color: "#ffffff",
+            fontSize: "1.9rem",
+            fontWeight: 500,
+            letterSpacing: 1,
           }}
         >
-          MadVentures
+          Select Madrid
         </h1>
-        <nav
-          style={{
-            display: 'flex',
-            gap: 18,
-            fontSize: '1.1rem',
-            flexWrap: 'wrap',
-            minWidth: 0,
-            justifyContent: 'center',
-            width: '100%',
-            marginTop: 8,
-            textAlign: 'center',
-          }}
-        >
-          <Link style={{ color: 'var(--color-accent)', fontWeight: 600, textDecoration: 'none' }} to="/">Home</Link>
-          <Link style={{ color: 'var(--color-accent)', fontWeight: 600, textDecoration: 'none' }} to="/catalog">Catalog</Link>
-          <Link style={{ color: 'var(--color-accent)', fontWeight: 600, textDecoration: 'none' }} to="/bookings">My Bookings</Link>
-          <Link style={{ color: 'var(--color-accent)', fontWeight: 600, textDecoration: 'none' }} to="/profile">Profile</Link>
+
+        <nav style={{ display: "flex", gap: 16, marginTop: 14 }}>
+          <Link style={navLinkStyle("/")} to="/">Home</Link>
+          <Link style={navLinkStyle("/catalog")} to="/catalog">Catalog</Link>
+          <Link style={navLinkStyle("/bookings")} to="/bookings">My Bookings</Link>
+          <Link style={navLinkStyle("/profile")} to="/profile">Profile</Link>
         </nav>
       </header>
-      <main style={{
-        flex: 1,
-        width: '100%',
-        maxWidth: '1200px',
-        margin: '0 auto',
-        padding: '32px 8px 0 8px',
-        boxSizing: 'border-box',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        overflowX: 'hidden',
-        background: 'rgba(24,24,24,0.98)',
-        borderRadius: '1.5rem',
-        boxShadow: '0 4px 32px rgba(123,30,58,0.10)',
-      }}>
+
+      <main
+        style={{
+          flex: 1,
+          width: "100%",
+          maxWidth: "1200px",
+          margin: "30px auto",
+          padding: "0 12px",
+        }}
+      >
         <Routes>
           <Route path="/" element={<HomeView />} />
           <Route path="/catalog" element={<CatalogView />} />

@@ -1,5 +1,4 @@
-
-const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:4000";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
 // Experiences
 export async function getExperiences() {
@@ -37,7 +36,8 @@ export async function updateBooking(id, data) {
 
 export async function deleteBooking(id) {
   const res = await fetch(`${API_URL}/bookings/${id}`, {
-    method: "DELETE" });
+    method: "DELETE",
+  });
   if (!res.ok) throw new Error("Failed to delete booking");
   return true;
 }
