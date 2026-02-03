@@ -2,22 +2,161 @@ import { Link, Routes, Route, useLocation } from "react-router-dom";
 import "./theme.css";
 
 import HomeView from "./views/HomeView";
-import CatalogView from "./views/CatalogView";
 import BookingsView from "./views/BookingsView";
 import { useState, useCallback } from "react";
 
-function BookingsPage() {
-  return <h2 style={{ color: "var(--color-text-light)" }}>My Bookings</h2>;
+function AboutView() {
+  return (
+    <div
+      style={{
+        color: "rgba(255,255,255,0.88)",
+        lineHeight: 1.7,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        textAlign: "center",
+        padding: "10px 0 30px",
+      }}
+    >
+      <h2
+        style={{
+          marginTop: 0,
+          marginBottom: 16,
+          color: "#fff",
+          fontWeight: 300,
+          letterSpacing: 1.4,
+        }}
+      >
+        About
+      </h2>
+
+      <div
+        style={{
+          width: "100%",
+          maxWidth: 520,
+          borderRadius: 18,
+          overflow: "hidden",
+          border: "1px solid rgba(255,255,255,0.10)",
+          background: "rgba(255,255,255,0.03)",
+          boxShadow: "0 18px 60px rgba(0,0,0,0.35)",
+        }}
+      >
+        <img
+          src="https://imgur.com/ynSHz41.jpg"
+          alt="Alejandro Pérez Muñoz & Luana Aguilo"
+          style={{
+            width: "100%",
+            height: "auto",
+            display: "block",
+          }}
+          loading="lazy"
+        />
+      </div>
+
+      <div style={{ marginTop: 18, maxWidth: 560, padding: "0 10px" }}>
+        <p style={{ marginTop: 5 }}>
+          Madrid Signature was founded by <strong>Alejandro Pérez Muñoz</strong> and{" "}
+          <strong>Luana Aguilo</strong> with a shared vision: to offer a level of access,
+          discretion, and personalization that goes far beyond traditional bookings or tours.
+        </p>
+
+        <p>
+          Alejandro, a Madrid native with a strong hospitality background, brings deep local knowledge,
+          trusted relationships, and an instinct for the city’s hidden rhythm. Luana, originally from
+          Los Angeles, contributes over a decade of experience in luxury concierge and high-level client
+          services, working with international clientele who expect precision, privacy, and seamless execution.
+        </p>
+
+        <p style={{ marginBottom: 14 }}>Together, they combine local access with global standards.</p>
+
+        <p>
+          From discreet culinary evenings and private cultural visits to chauffeured heritage journeys and
+          VIP nightlife arrangements, every experience is handled personally and tailored to the guest’s
+          timing, preferences, and pace.
+        </p>
+
+        <p>
+          Our role is simple: remove friction, open doors, and elevate your time in Madrid.
+        </p>
+
+        <p style={{ marginBottom: 0 }}>
+          This service is designed for travelers who value efficiency, privacy, and experiences that feel
+          effortless yet exceptional.
+        </p>
+      </div>
+
+      
+    </div>
+  );
 }
-function ProfilePage() {
-  return <h2 style={{ color: "var(--color-text-light)" }}>Profile</h2>;
+
+function ContactView() {
+  return (
+    <div
+      style={{
+        color: "rgba(255,255,255,0.88)",
+        lineHeight: 1.7,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        textAlign: "center",
+        padding: "10px 0 30px",
+      }}
+    >
+      <h2
+        style={{
+          marginTop: 0,
+          marginBottom: 16,
+          color: "#fff",
+          fontWeight: 300,
+          letterSpacing: 1.4,
+        }}
+      >
+        Contact
+      </h2>
+
+      <div
+        style={{
+          width: "100%",
+          maxWidth: 560,
+          borderRadius: 18,
+          border: "1px solid rgba(255,255,255,0.10)",
+          background: "rgba(255,255,255,0.03)",
+          boxShadow: "0 18px 60px rgba(0,0,0,0.35)",
+          padding: "18px 18px",
+        }}
+      >
+        <div style={{ display: "grid", gap: 10 }}>
+          <div>
+            <div style={{ fontSize: 12, letterSpacing: 2, textTransform: "uppercase", opacity: 0.7 }}>
+              Email
+            </div>
+            <div style={{ marginTop: 4, color: "#fff" }}>info@madridsignature.com</div>
+          </div>
+
+          <div>
+            <div style={{ fontSize: 12, letterSpacing: 2, textTransform: "uppercase", opacity: 0.7 }}>
+              WhatsApp
+            </div>
+            <div style={{ marginTop: 4, color: "#fff" }}>+34 609 366 269</div>
+          </div>
+
+          <div>
+            <div style={{ fontSize: 12, letterSpacing: 2, textTransform: "uppercase", opacity: 0.7 }}>
+              Hours
+            </div>
+            <div style={{ marginTop: 4, color: "#fff" }}>Daily 6:00–23:00</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default function App() {
   const location = useLocation();
   const [bookings, setBookings] = useState([]);
 
-  // Add booking if not already booked
   const handleBook = useCallback((experience) => {
     setBookings((prev) => {
       if (prev.some((b) => b.id === experience.id)) return prev;
@@ -25,7 +164,6 @@ export default function App() {
     });
   }, []);
 
-  // Remove booking by id
   const handleCancelBooking = useCallback((experience) => {
     setBookings((prev) => prev.filter((b) => b.id !== experience.id));
   }, []);
@@ -94,18 +232,26 @@ export default function App() {
           Madrid Signature
         </h1>
 
-        <nav style={{ display: "flex", gap: 18, marginTop: 14 }}>
+        <nav
+          style={{
+            display: "flex",
+            gap: 18,
+            marginTop: 14,
+            flexWrap: "wrap",
+            justifyContent: "center",
+          }}
+        >
           <Link style={navLinkStyle("/")} to="/">
             Home
           </Link>
-          <Link style={navLinkStyle("/catalog")} to="/catalog">
-            Catalog
+          <Link style={navLinkStyle("/about")} to="/about">
+            About
           </Link>
           <Link style={navLinkStyle("/bookings")} to="/bookings">
-            My Bookings
+            Bookings
           </Link>
-          <Link style={navLinkStyle("/profile")} to="/profile">
-            Profile
+          <Link style={navLinkStyle("/contact")} to="/contact">
+            Contact
           </Link>
         </nav>
       </header>
@@ -121,9 +267,12 @@ export default function App() {
       >
         <Routes>
           <Route path="/" element={<HomeView onBook={handleBook} bookings={bookings} />} />
-          <Route path="/catalog" element={<CatalogView onBook={handleBook} bookings={bookings} />} />
-          <Route path="/bookings" element={<BookingsView bookings={bookings} onCancelBooking={handleCancelBooking} />} />
-          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/about" element={<AboutView />} />
+          <Route
+            path="/bookings"
+            element={<BookingsView bookings={bookings} onCancelBooking={handleCancelBooking} />}
+          />
+          <Route path="/contact" element={<ContactView />} />
         </Routes>
       </main>
     </div>
