@@ -6,60 +6,7 @@
   min-height: 2.2em;
   letter-spacing: 0.01em;
 }
-.bookingBtn {
-  margin-top: 0.7em;
-  background: var(--primary-color, #e53935);
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 0.5em 1.2em;
-  font-weight: 600;
-  font-size: 1em;
-  cursor: pointer;
-  transition: background 0.18s, color 0.18s;
-  box-shadow: 0 2px 8px rgba(229,57,53,0.10);
-}
-.bookingBtn:hover {
-  background: #b71c1c;
-}
-.bookedLabel {
-  margin-top: 0.7em;
-  color: var(--primary-color, #e53935);
-  font-weight: 700;
-  font-size: 1em;
-  border-radius: 8px;
-  background: rgba(229,57,53,0.08);
-  padding: 0.4em 1em;
-  display: inline-block;
-}
-.bookingBtn {
-  margin-top: 15px;
-  background: transparent;
-  color: #fff;
-  border: 1px solid #333;
-  border-radius: 4px;
-  padding: 10px 20px;
-  font-size: 0.8rem;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  cursor: pointer;
-  width: 100%;
-  transition: all 0.3s ease;
-}
-.bookingBtn:hover {
-  background: #fff;
-  color: #000;
-  border-color: #fff;
-}
-.bookedLabel {
-  display: block;
-  margin-top: 15px;
-  color: #888;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  text-align: center;
-}
+
 .card {
   border-radius: 20px;
   overflow: hidden;
@@ -107,19 +54,6 @@
 
 /* TITLE — thin + elegant */
 .title {
-<<<<<<< HEAD
-  margin: 0.35em 0 0.25em 0;
-  font-size: 1.15em;
-  color: #9fa2a6;
-  font-weight: 600;
-  letter-spacing: -0.2px;
-}
-
-.price {
-  color: #9fa2a6;
-  font-weight: 500;
-  margin: 0;
-=======
   font-size: 16px;
   font-weight: 400;
   letter-spacing: 0.2px;
@@ -146,5 +80,35 @@
   opacity: 0.55;
   letter-spacing: 0.4px;
   text-transform: uppercase;
->>>>>>> f66fc9b (UI polish: cards + layout)
+}
+
+.bookingBtn {
+  margin-top: 15px;
+  background: transparent;
+  color: #fff;
+  border: 1px solid #333;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-size: 0.8rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.bookingBtn:hover {
+  background: #fff;
+  color: #000;
+  border-color: #fff;
+}
+
+.bookedLabel {
+  display: block;
+  margin-top: 15px;
+  color: #888;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-align: center;
 }
