@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { getExperiences } from "../services/api";
 
-function HomeView() {
-  const [categories, setCategories] = useState([]);
+function CategoryView() {
+  const { categoryName } = useParams();
+  const navigate = useNavigate();
+  const [experiences, setExperiences] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
-  const navigate = useNavigate();
+
+  const decodedCategory = decodeURIComponent(categoryName);
 
   useEffect(() => {
     let mounted = true;
@@ -20,30 +23,11 @@ function HomeView() {
 
         if (!mounted) return;
 
-        // Group experiences by category and get the first image from each
-        const categoryMap = {};
-        
-        if (Array.isArray(data)) {
-          data.forEach(exp => {
-            if (exp.category && !categoryMap[exp.category]) {
-              categoryMap[exp.category] = {
-                name: exp.category,
-                image: exp.image,
-                count: 0
-              };
-            }
-            if (exp.category) {
-              categoryMap[exp.category].count++;
-            }
-          });
-        }
+        const filtered = Array.isArray(data) 
+          ? data.filter(exp => exp.category === decodedCategory)
+          : [];
 
-        // Convert to array and sort by category name
-        const categoryArray = Object.values(categoryMap).sort((a, b) => 
-          a.name.localeCompare(b.name)
-        );
-
-        setCategories(categoryArray);
+        setExperiences(filtered);
       } catch (err) {
         if (!mounted) return;
 
@@ -54,7 +38,7 @@ function HomeView() {
           "Unknown error while fetching experiences.";
 
         setErrorMsg(status ? `Error ${status}: ${message}` : message);
-        setCategories([]);
+        setExperiences([]);
       } finally {
         if (!mounted) return;
         setLoading(false);
@@ -66,17 +50,17 @@ function HomeView() {
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [decodedCategory]);
 
-  const handleCategoryClick = (categoryName) => {
-    navigate(`/category/${encodeURIComponent(categoryName)}`);
+  const handleExperienceClick = (experienceId) => {
+    navigate(`/experience/${experienceId}`);
   };
 
   if (loading) {
     return (
       <main style={{ padding: "40px 0" }}>
         <p style={{ textAlign: "center", opacity: 0.85, color: "rgba(255,255,255,0.88)" }}>
-          Loading categories…
+          Loading experiences…
         </p>
       </main>
     );
@@ -86,7 +70,7 @@ function HomeView() {
     return (
       <main style={{ padding: "40px 0" }}>
         <p style={{ textAlign: "center", color: "rgba(255,255,255,0.88)" }}>
-          Could not load categories.
+          Could not load experiences.
         </p>
         <p style={{ textAlign: "center", opacity: 0.8, color: "rgba(255,255,255,0.88)" }}>
           {errorMsg}
@@ -95,42 +79,87 @@ function HomeView() {
     );
   }
 
-  if (categories.length === 0) {
+  if (experiences.length === 0) {
     return (
       <main style={{ padding: "40px 0" }}>
+        <h2 style={{ 
+          color: "#fff", 
+          fontWeight: 300, 
+          letterSpacing: 1.4, 
+          marginBottom: 20,
+          textAlign: "center"
+        }}>
+          {decodedCategory}
+        </h2>
         <p style={{ textAlign: "center", opacity: 0.85, color: "rgba(255,255,255,0.88)" }}>
-          No categories found.
+          No experiences found in this category.
         </p>
+        <div style={{ textAlign: "center", marginTop: 20 }}>
+          <Link 
+            to="/" 
+            style={{ 
+              color: "rgba(255,255,255,0.88)", 
+              textDecoration: "underline" 
+            }}
+          >
+            ← Back to Categories
+          </Link>
+        </div>
       </main>
     );
   }
 
   return (
     <main style={{ padding: "20px 0 40px" }}>
-      
+      <div style={{ marginBottom: 30, display: "flex", alignItems: "center", gap: 20 }}>
+        <Link 
+          to="/" 
+          style={{ 
+            color: "rgba(255,255,255,0.7)", 
+            textDecoration: "none",
+            fontSize: 14,
+            letterSpacing: 1,
+            textTransform: "uppercase",
+            transition: "all 180ms ease"
+          }}
+          onMouseEnter={(e) => e.target.style.color = "#fff"}
+          onMouseLeave={(e) => e.target.style.color = "rgba(255,255,255,0.7)"}
+        >
+          ← All Categories
+        </Link>
+      </div>
+
+      <h2 style={{ 
+        color: "#fff", 
+        fontSize: "2rem",
+        fontWeight: 300, 
+        letterSpacing: 1.4, 
+        marginBottom: 10,
+        marginTop: 0
+      }}>
+        {decodedCategory}
+      </h2>
       
       <p style={{ 
         color: "rgba(255,255,255,0.7)", 
-        marginBottom: 50,
-        textAlign: "center",
-        fontSize: 21,
-        maxWidth: 600,
-        margin: "0 auto 50px"
+        marginBottom: 40,
+        fontSize: 14
       }}>
-        Curated luxury experiences across Madrid and beyond. Select a category to discover what we offer.
+        {experiences.length} {experiences.length === 1 ? 'experience' : 'experiences'}
       </p>
 
+      {/* 2-column grid */}
       <div style={{
         display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-        gap: 28,
-        maxWidth: 1100,
+        gridTemplateColumns: "repeat(2, 1fr)",
+        gap: 32,
+        maxWidth: 1200,
         margin: "0 auto"
       }}>
-        {categories.map((category) => (
+        {experiences.map((exp) => (
           <article
-            key={category.name}
-            onClick={() => handleCategoryClick(category.name)}
+            key={exp.id}
+            onClick={() => handleExperienceClick(exp.id)}
             style={{
               borderRadius: 20,
               overflow: "hidden",
@@ -151,14 +180,14 @@ function HomeView() {
             }}
           >
             <div style={{
-              height: 240,
+              height: 280,
               width: "100%",
               overflow: "hidden",
               background: "#000"
             }}>
               <img
-                src={category.image}
-                alt={category.name}
+                src={exp.image}
+                alt={exp.title}
                 style={{
                   width: "100%",
                   height: "100%",
@@ -173,31 +202,48 @@ function HomeView() {
               padding: "24px 24px 22px",
               color: "rgba(255, 255, 255, 0.92)"
             }}>
-              <h3 style={{
-                fontSize: 20,
-                fontWeight: 400,
-                letterSpacing: 0.4,
-                margin: "0 0 10px 0",
-                lineHeight: 1.3,
-                color: "#fff"
+              <div style={{
+                fontSize: 11,
+                letterSpacing: 2.2,
+                textTransform: "uppercase",
+                opacity: 0.65,
+                marginBottom: 10
               }}>
-                {category.name}
+                {exp.category}
+              </div>
+
+              <h3 style={{
+                fontSize: 18,
+                fontWeight: 400,
+                letterSpacing: 0.2,
+                margin: "0 0 12px 0",
+                lineHeight: 1.3
+              }}>
+                {exp.title}
               </h3>
 
-              <p style={{
-                fontSize: 13,
-                opacity: 0.7,
-                letterSpacing: 0.3,
-                margin: 0
+              <div style={{
+                fontSize: 14,
+                opacity: 0.85,
+                letterSpacing: 0.2
               }}>
-                {category.count} {category.count === 1 ? 'experience' : 'experiences'}
-              </p>
+                €{exp.price}
+              </div>
             </div>
           </article>
         ))}
       </div>
+
+      {/* Mobile: 1 column */}
+      <style>{`
+        @media (max-width: 900px) {
+          div[style*="gridTemplateColumns: repeat(2, 1fr)"] {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}</style>
     </main>
   );
 }
 
-export default HomeView;
+export default CategoryView;

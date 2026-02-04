@@ -3,6 +3,8 @@ import "./theme.css";
 
 import HomeView from "./views/HomeView";
 import BookingsView from "./views/BookingsView";
+import CategoryView from "./views/CategoryView";
+import ExperienceDetailView from "./views/ExperienceDetailView";
 import { useState, useCallback } from "react";
 
 function AboutView() {
@@ -25,6 +27,7 @@ function AboutView() {
           color: "#fff",
           fontWeight: 300,
           letterSpacing: 1.4,
+          fontSize: "1.2rem",
         }}
       >
         About
@@ -89,11 +92,14 @@ function AboutView() {
 }
 
 function ContactView() {
+  const location = useLocation();
+  const prefilledExperience = location.state?.prefilledExperience || "";
+  
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
-    experience: "",
+    experience: prefilledExperience,
     dates: "",
     message: "",
   });
@@ -143,10 +149,6 @@ function ContactView() {
 
   return (
     <div style={{ color: "rgba(255,255,255,0.88)", lineHeight: 1.7, padding: "10px 20px 50px" }}>
-      <h2 style={{ marginTop: 0, marginBottom: 40, color: "#fff", fontWeight: 300, letterSpacing: 1.4, textAlign: "center", fontSize: "2rem" }}>
-        Contact
-      </h2>
-
       <div style={{ 
         display: "grid", 
         gridTemplateColumns: "1fr 1fr", 
@@ -155,7 +157,6 @@ function ContactView() {
         margin: "0 auto",
         alignItems: "start"
       }}>
-        {/* Left: Contact Form */}
         <div style={{ 
           borderRadius: 18, 
           border: "1px solid rgba(255,255,255,0.10)", 
@@ -248,9 +249,7 @@ function ContactView() {
           </form>
         </div>
 
-        {/* Right: Contact Info & Quick Actions */}
         <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-          {/* Contact Details */}
           <div style={{ 
             borderRadius: 18, 
             border: "1px solid rgba(255,255,255,0.10)", 
@@ -274,13 +273,17 @@ function ContactView() {
               </div>
 
               <div>
+                <div style={{ fontSize: 12, letterSpacing: 2, textTransform: "uppercase", opacity: 0.7 }}>Address</div>
+                <div style={{ marginTop: 6, color: "#fff", fontSize: 15 }}>Calle Ortega Y Gasset 6<br />28006, Madrid</div>
+              </div>
+
+              <div>
                 <div style={{ fontSize: 12, letterSpacing: 2, textTransform: "uppercase", opacity: 0.7 }}>Hours</div>
                 <div style={{ marginTop: 6, color: "#fff", fontSize: 15 }}>Daily 6:00–23:00</div>
               </div>
             </div>
           </div>
 
-          {/* Quick Contact Buttons */}
           <div style={{ 
             borderRadius: 18, 
             border: "1px solid rgba(255,255,255,0.10)", 
@@ -343,13 +346,12 @@ function ContactView() {
             </div>
 
             <p style={{ marginTop: 20, marginBottom: 0, fontSize: 13, opacity: 0.7, lineHeight: 1.6 }}>
-              We typically respond within 2-4 hours during business hours.
+              We typically respond within 1 hour during business hours.
             </p>
           </div>
         </div>
       </div>
 
-      {/* Mobile Responsive */}
       <style>{`
         @media (max-width: 900px) {
           div[style*="gridTemplateColumns: 1fr 1fr"] {
@@ -364,6 +366,7 @@ function ContactView() {
 export default function App() {
   const location = useLocation();
   const [bookings, setBookings] = useState([]);
+  const [wishlist, setWishlist] = useState([]);
 
   const handleBook = useCallback((experience) => {
     setBookings((prev) => {
@@ -376,21 +379,33 @@ export default function App() {
     setBookings((prev) => prev.filter((b) => b.id !== experience.id));
   }, []);
 
+  const handleAddToWishlist = useCallback((experience) => {
+    setWishlist((prev) => {
+      const exists = prev.some((item) => item.id === experience.id);
+      if (exists) {
+        return prev.filter((item) => item.id !== experience.id);
+      } else {
+        return [...prev, experience];
+      }
+    });
+  }, []);
+
+  const handleRemoveFromWishlist = useCallback((experience) => {
+    setWishlist((prev) => prev.filter((item) => item.id !== experience.id));
+  }, []);
+
   const linkBase = {
     color: "rgba(255,255,255,0.88)",
     fontWeight: 400,
     textDecoration: "none",
     letterSpacing: 1.2,
     padding: "10px 14px",
-    borderRadius: 999,
     transition: "all 160ms ease",
     textTransform: "uppercase",
     fontSize: 12,
   };
 
   const activeLink = {
-    background: "rgba(255,255,255,0.06)",
-    border: "1px solid rgba(255,255,255,0.14)",
     color: "#ffffff",
   };
 
@@ -456,7 +471,7 @@ export default function App() {
             About
           </Link>
           <Link style={navLinkStyle("/bookings")} to="/bookings">
-            Bookings
+            Your Experiences
           </Link>
           <Link style={navLinkStyle("/contact")} to="/contact">
             Contact
@@ -475,10 +490,27 @@ export default function App() {
       >
         <Routes>
           <Route path="/" element={<HomeView onBook={handleBook} bookings={bookings} />} />
+          <Route path="/category/:categoryName" element={<CategoryView />} />
+          <Route 
+            path="/experience/:experienceId" 
+            element={
+              <ExperienceDetailView 
+                onAddToWishlist={handleAddToWishlist}
+                wishlist={wishlist}
+              />
+            } 
+          />
           <Route path="/about" element={<AboutView />} />
           <Route
             path="/bookings"
-            element={<BookingsView bookings={bookings} onCancelBooking={handleCancelBooking} />}
+            element={
+              <BookingsView 
+                bookings={bookings} 
+                wishlist={wishlist}
+                onCancelBooking={handleCancelBooking}
+                onRemoveFromWishlist={handleRemoveFromWishlist}
+              />
+            }
           />
           <Route path="/contact" element={<ContactView />} />
         </Routes>

@@ -14,6 +14,22 @@
   --color-text-light: #fff;
 }
 
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  overflow-x: hidden;
+  width: 100%;
+}
+
 body {
   background: var(--color-bg);
   color: var(--color-text);
