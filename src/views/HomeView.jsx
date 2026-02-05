@@ -111,13 +111,12 @@ function HomeView() {
       
       <p style={{ 
         color: "rgba(255,255,255,0.7)", 
-        marginBottom: 50,
+        marginBottom: 0,
         textAlign: "center",
-        fontSize: 21,
+        fontSize: 14,
         maxWidth: 600,
-        margin: "0 auto 50px"
+        margin: "0 auto 0px"
       }}>
-        Curated luxury experiences across Madrid and beyond. Select a category to discover what we offer.
       </p>
 
       <div style={{

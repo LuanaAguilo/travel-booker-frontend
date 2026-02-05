@@ -94,13 +94,14 @@ function AboutView() {
 function ContactView() {
   const location = useLocation();
   const prefilledExperience = location.state?.prefilledExperience || "";
+  const prefilledDate = location.state?.prefilledDate || "";
   
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     experience: prefilledExperience,
-    dates: "",
+    dates: prefilledDate,
     message: "",
   });
   const [submitStatus, setSubmitStatus] = useState("");
@@ -191,18 +192,18 @@ function ContactView() {
             </div>
 
             <div>
-              <label style={labelStyle}>Preferred Dates</label>
-              <input type="text" name="dates" value={formData.dates} onChange={handleChange} placeholder="e.g., March 15-20, 2026" style={inputStyle} />
+              <label style={labelStyle}>Preferred Date</label>
+              <input type="date" name="dates" value={formData.dates} onChange={handleChange} style={inputStyle} />
             </div>
 
             <div>
-              <label style={labelStyle}>Message *</label>
+              <label style={labelStyle}>Message</label>
               <textarea 
                 name="message" 
                 value={formData.message} 
                 onChange={handleChange} 
-                required 
                 rows={5} 
+                placeholder="Optional: Tell us more about your preferences..."
                 style={{ 
                   ...inputStyle, 
                   resize: "vertical", 
@@ -230,7 +231,7 @@ function ContactView() {
                 marginTop: 8 
               }}
             >
-              {isSubmitting ? "Sending..." : "Send Message"}
+              {isSubmitting ? "Sending..." : "Send Request"}
             </button>
 
             {submitStatus === "success" && (
@@ -243,7 +244,7 @@ function ContactView() {
                 fontSize: 13, 
                 textAlign: "center" 
               }}>
-                Message sent! We'll get back to you within 24 hours.
+                Request sent! We'll get back to you within 1 hour during business hours.
               </div>
             )}
           </form>
@@ -367,6 +368,7 @@ export default function App() {
   const location = useLocation();
   const [bookings, setBookings] = useState([]);
   const [wishlist, setWishlist] = useState([]);
+  const [bookingRequests, setBookingRequests] = useState([]);
 
   const handleBook = useCallback((experience) => {
     setBookings((prev) => {
@@ -392,6 +394,19 @@ export default function App() {
 
   const handleRemoveFromWishlist = useCallback((experience) => {
     setWishlist((prev) => prev.filter((item) => item.id !== experience.id));
+  }, []);
+
+  const handleAddBookingRequest = useCallback((request) => {
+    setBookingRequests((prev) => [...prev, {
+      ...request,
+      id: Date.now(),
+      status: 'pending',
+      submittedAt: new Date().toISOString()
+    }]);
+  }, []);
+
+  const handleCancelRequest = useCallback((requestId) => {
+    setBookingRequests((prev) => prev.filter((r) => r.id !== requestId));
   }, []);
 
   const linkBase = {
@@ -438,7 +453,7 @@ export default function App() {
           alignItems: "center",
           position: "sticky",
           top: 0,
-          zIndex: 10,
+          zIndex: 1000,
           backdropFilter: "blur(10px)",
           WebkitBackdropFilter: "blur(10px)",
         }}
@@ -497,6 +512,7 @@ export default function App() {
               <ExperienceDetailView 
                 onAddToWishlist={handleAddToWishlist}
                 wishlist={wishlist}
+                onAddBookingRequest={handleAddBookingRequest}
               />
             } 
           />
@@ -505,9 +521,11 @@ export default function App() {
             path="/bookings"
             element={
               <BookingsView 
-                bookings={bookings} 
+                bookings={bookings}
+                bookingRequests={bookingRequests}
                 wishlist={wishlist}
                 onCancelBooking={handleCancelBooking}
+                onCancelRequest={handleCancelRequest}
                 onRemoveFromWishlist={handleRemoveFromWishlist}
               />
             }
@@ -515,6 +533,176 @@ export default function App() {
           <Route path="/contact" element={<ContactView />} />
         </Routes>
       </main>
+
+      {/* Footer */}
+      <footer
+        style={{
+          width: "100%",
+          background: "rgba(14,14,16,0.95)",
+          borderTop: "1px solid rgba(255,255,255,0.08)",
+          padding: "50px 20px 30px",
+          marginTop: "auto"
+        }}
+      >
+        <div style={{
+          maxWidth: "1180px",
+          margin: "0 auto",
+          display: "grid",
+          gridTemplateColumns: "2fr 1fr 1fr",
+          gap: 48,
+          marginBottom: 40
+        }}>
+          {/* Brand */}
+          <div>
+            <h3 style={{
+              margin: "0 0 16px 0",
+              color: "#fff",
+              fontSize: "1.5rem",
+              fontWeight: 300,
+              letterSpacing: 2
+            }}>
+              Madrid Signature
+            </h3>
+            <p style={{
+              color: "rgba(255,255,255,0.6)",
+              fontSize: 14,
+              lineHeight: 1.7,
+              margin: 0,
+              maxWidth: 400
+            }}>
+              Curated experiences that reveal Madrid's hidden elegance. From private dining to VIP nightlife, we provide seamless access to the city's finest moments.
+            </p>
+          </div>
+
+          {/* Quick Links */}
+          <div>
+            <h4 style={{
+              margin: "0 0 20px 0",
+              color: "#fff",
+              fontSize: 13,
+              fontWeight: 500,
+              letterSpacing: 2,
+              textTransform: "uppercase"
+            }}>
+              Quick Links
+            </h4>
+            <nav style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 12
+            }}>
+              <Link to="/" style={{
+                color: "rgba(255,255,255,0.7)",
+                textDecoration: "none",
+                fontSize: 14,
+                transition: "color 180ms ease"
+              }}
+              onMouseEnter={(e) => e.target.style.color = "#fff"}
+              onMouseLeave={(e) => e.target.style.color = "rgba(255,255,255,0.7)"}
+              >
+                Home
+              </Link>
+              <Link to="/about" style={{
+                color: "rgba(255,255,255,0.7)",
+                textDecoration: "none",
+                fontSize: 14,
+                transition: "color 180ms ease"
+              }}
+              onMouseEnter={(e) => e.target.style.color = "#fff"}
+              onMouseLeave={(e) => e.target.style.color = "rgba(255,255,255,0.7)"}
+              >
+                About
+              </Link>
+              <Link to="/bookings" style={{
+                color: "rgba(255,255,255,0.7)",
+                textDecoration: "none",
+                fontSize: 14,
+                transition: "color 180ms ease"
+              }}
+              onMouseEnter={(e) => e.target.style.color = "#fff"}
+              onMouseLeave={(e) => e.target.style.color = "rgba(255,255,255,0.7)"}
+              >
+                Your Experiences
+              </Link>
+              <Link to="/contact" style={{
+                color: "rgba(255,255,255,0.7)",
+                textDecoration: "none",
+                fontSize: 14,
+                transition: "color 180ms ease"
+              }}
+              onMouseEnter={(e) => e.target.style.color = "#fff"}
+              onMouseLeave={(e) => e.target.style.color = "rgba(255,255,255,0.7)"}
+              >
+                Contact
+              </Link>
+            </nav>
+          </div>
+
+          {/* Contact Info */}
+          <div>
+            <h4 style={{
+              margin: "0 0 20px 0",
+              color: "#fff",
+              fontSize: 13,
+              fontWeight: 500,
+              letterSpacing: 2,
+              textTransform: "uppercase"
+            }}>
+              Contact
+            </h4>
+            <div style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 12,
+              fontSize: 14,
+              color: "rgba(255,255,255,0.7)"
+            }}>
+              <a href="mailto:info@madridsignature.com" style={{
+                color: "rgba(255,255,255,0.7)",
+                textDecoration: "none",
+                transition: "color 180ms ease"
+              }}
+              onMouseEnter={(e) => e.target.style.color = "#fff"}
+              onMouseLeave={(e) => e.target.style.color = "rgba(255,255,255,0.7)"}
+              >
+                info@madridsignature.com
+              </a>
+              <a href="https://wa.me/34609366269" style={{
+                color: "rgba(255,255,255,0.7)",
+                textDecoration: "none",
+                transition: "color 180ms ease"
+              }}
+              onMouseEnter={(e) => e.target.style.color = "#fff"}
+              onMouseLeave={(e) => e.target.style.color = "rgba(255,255,255,0.7)"}
+              >
+                +34 609 366 269
+              </a>
+              <div>Calle Ortega Y Gasset 6<br />28006, Madrid</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div style={{
+          borderTop: "1px solid rgba(255,255,255,0.08)",
+          paddingTop: 24,
+          textAlign: "center",
+          color: "rgba(255,255,255,0.5)",
+          fontSize: 13
+        }}>
+          © {new Date().getFullYear()} Madrid Signature. All rights reserved.
+        </div>
+
+        {/* Responsive Footer */}
+        <style>{`
+          @media (max-width: 900px) {
+            div[style*="gridTemplateColumns: 2fr 1fr 1fr"] {
+              grid-template-columns: 1fr !important;
+              gap: 32px !important;
+            }
+          }
+        `}</style>
+      </footer>
     </div>
   );
 }
