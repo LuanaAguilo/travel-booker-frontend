@@ -265,7 +265,100 @@ function BookingsView({ bookings = [], wishlist = [], onCancelBooking, onRemoveF
             gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
             gap: 24
           }}>
-            {/* Upcoming bookings will be mapped here */}
+            {bookings.map((exp) => (
+              <article
+                key={exp.id}
+                style={{
+                  borderRadius: 18,
+                  overflow: "hidden",
+                  background: "rgba(255, 255, 255, 0.035)",
+                  border: "1px solid rgba(255, 255, 255, 0.07)",
+                  position: "relative",
+                  transition: "transform 180ms ease, box-shadow 180ms ease"
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "translateY(-2px)";
+                  e.currentTarget.style.boxShadow = "0 12px 40px rgba(0, 0, 0, 0.4)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "translateY(0)";
+                  e.currentTarget.style.boxShadow = "none";
+                }}
+              >
+                <div
+                  onClick={() => handleExperienceClick(exp.id)}
+                  style={{ cursor: "pointer" }}
+                >
+                  <div style={{
+                    height: 200,
+                    width: "100%",
+                    overflow: "hidden",
+                    background: "#000"
+                  }}>
+                    <img
+                      src={exp.image}
+                      alt={exp.title}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        display: "block"
+                      }}
+                      loading="lazy"
+                    />
+                  </div>
+
+                  <div style={{ padding: "20px" }}>
+                    <div style={{
+                      fontSize: 11,
+                      letterSpacing: 2,
+                      textTransform: "uppercase",
+                      opacity: 0.6,
+                      marginBottom: 8
+                    }}>
+                      {exp.category}
+                    </div>
+
+                    <h4 style={{
+                      fontSize: 16,
+                      fontWeight: 400,
+                      letterSpacing: 0.2,
+                      margin: "0 0 10px 0",
+                      lineHeight: 1.3,
+                      color: "#181818"
+                    }}>
+                      {exp.title}
+                    </h4>
+
+                    {/* FECHA DE RESERVA */}
+                    {exp.bookingDate && (
+                      <div style={{
+                        display: "inline-block",
+                        marginTop: "8px",
+                        padding: "6px 12px",
+                        background: "rgba(123, 30, 58, 0.08)",
+                        border: "1px solid var(--color-primary)",
+                        borderRadius: "6px",
+                        color: "var(--color-primary)",
+                        fontSize: "13px",
+                        fontWeight: "600"
+                      }}>
+                        📅 Booked for: {new Date(exp.bookingDate).toLocaleDateString(undefined, {
+                          weekday: 'short', year: 'numeric', month: 'long', day: 'numeric'
+                        })}
+                      </div>
+                    )}
+
+                    <div style={{
+                      fontSize: 14,
+                      color: "rgba(24,24,24,0.85)"
+                    }}>
+                      €{exp.price}
+                    </div>
+                  </div>
+                </div>
+              </article>
+            ))}
           </div>
         )}
       </section>

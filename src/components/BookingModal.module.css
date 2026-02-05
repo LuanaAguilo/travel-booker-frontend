@@ -1,0 +1,97 @@
+.backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(24, 24, 24, 0.45);
+  backdrop-filter: blur(2px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalCard {
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-card-border, #e5e1dc);
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(24, 24, 24, 0.18);
+  padding: 2.5rem 1.5rem 2rem 1.5rem;
+  min-width: 320px;
+  max-width: 95vw;
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.title {
+  color: var(--color-primary);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.expTitle {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.dateInput {
+  padding: 0.7em 1em;
+  border-radius: 8px;
+  border: 1px solid var(--color-card-border, #e5e1dc);
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  background: #fff;
+  color: var(--color-text);
+  outline: none;
+  transition: border 0.2s;
+}
+.dateInput:focus {
+  border: 1.5px solid var(--color-primary);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.2em;
+}
+
+.cancelBtn {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.5em 1em;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+.cancelBtn:hover {
+  background: rgba(123, 30, 58, 0.07);
+}
+
+.confirmBtn {
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.5em 1.5em;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.18s, opacity 0.18s;
+}
+.confirmBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 480px) {
+  .modalCard {
+    min-width: 0;
+    padding: 1.2rem 0.5rem 1.2rem 0.5rem;
+  }
+}

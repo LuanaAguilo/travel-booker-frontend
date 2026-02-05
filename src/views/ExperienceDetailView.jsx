@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { getExperiences } from "../services/api";
+import BookingModal from "../components/BookingModal";
 
-function ExperienceDetailView({ onAddToWishlist, wishlist = [] }) {
+function ExperienceDetailView({ onAddToWishlist, wishlist = [], onBook }) {
   const { experienceId } = useParams();
   const navigate = useNavigate();
   const [experience, setExperience] = useState(null);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const isInWishlist = wishlist.some(item => item.id === parseInt(experienceId));
 
@@ -63,12 +65,15 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [] }) {
   };
 
   const handleRequestToBook = () => {
-    navigate("/contact", { 
-      state: { 
-        prefilledExperience: experience.title,
-        experienceId: experience.id 
-      } 
-    });
+    setIsModalOpen(true);
+  };
+
+  const handleConfirmBooking = (exp, date) => {
+    if (onBook) {
+      onBook(exp, date);
+      setIsModalOpen(false);
+      navigate("/bookings");
+    }
   };
 
   if (loading) {
@@ -375,28 +380,29 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [] }) {
                 style={{
                   width: "100%",
                   padding: "16px 24px",
-                  border: "1px solid rgba(255,255,255,0.2)",
-                  background: "rgba(255,255,255,0.1)",
+                  border: "none",
+                  background: "var(--color-primary)",
                   color: "#fff",
                   fontSize: 13,
                   letterSpacing: 2,
                   textTransform: "uppercase",
-                  fontWeight: 500,
+                  fontWeight: 600,
                   cursor: "pointer",
                   transition: "all 200ms ease",
-                  marginBottom: 14
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "rgba(255,255,255,0.15)";
-                  e.currentTarget.style.transform = "translateY(-1px)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "rgba(255,255,255,0.1)";
-                  e.currentTarget.style.transform = "translateY(0)";
+                  marginBottom: 14,
+                  borderRadius: "8px"
                 }}
               >
                 Request to Book
               </button>
+      {/* AGREGAR EL MODAL AL FINAL DEL COMPONENTE */}
+      {isModalOpen && (
+        <BookingModal 
+          experience={experience}
+          onCancel={() => setIsModalOpen(false)}
+          onConfirm={handleConfirmBooking}
+        />
+      )}
 
               <button
                 onClick={handleWishlistToggle}
