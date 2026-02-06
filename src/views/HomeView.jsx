@@ -38,10 +38,20 @@ function HomeView() {
           });
         }
 
-        // Convert to array and sort by category name
-        const categoryArray = Object.values(categoryMap).sort((a, b) => 
-          a.name.localeCompare(b.name)
-        );
+        // Define custom order for categories
+        const customOrder = [
+          "Culture & Art",
+          "Fine Dining & Wine",
+          "Tapas & Traditions",
+          "Leisure & Experiences",
+          "Nightlife & Access",
+          "Private Journeys"
+        ];
+
+        // Convert to array and sort by custom order
+        const categoryArray = customOrder
+          .map(name => categoryMap[name])
+          .filter(Boolean); // Remove any undefined categories
 
         setCategories(categoryArray);
       } catch (err) {

@@ -13,6 +13,8 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
   const [showCalendarModal, setShowCalendarModal] = useState(false);
   const [showBookingForm, setShowBookingForm] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
+  const [categoryExperiences, setCategoryExperiences] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(-1);
 
   const isInWishlist = wishlist.some(item => item.id === parseInt(experienceId));
 
@@ -34,6 +36,14 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
 
         if (found) {
           setExperience(found);
+          
+          // Get all experiences in the same category
+          const sameCategoryExps = data.filter(exp => exp.category === found.category);
+          setCategoryExperiences(sameCategoryExps);
+          
+          // Find current index
+          const index = sameCategoryExps.findIndex(exp => exp.id === parseInt(experienceId));
+          setCurrentIndex(index);
         } else {
           setErrorMsg("Experience not found.");
         }
@@ -90,6 +100,20 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
     onAddBookingRequest(requestData);
   };
 
+  const handlePrevious = () => {
+    if (currentIndex > 0) {
+      const prevExp = categoryExperiences[currentIndex - 1];
+      navigate(`/experience/${prevExp.id}`);
+    }
+  };
+
+  const handleNext = () => {
+    if (currentIndex < categoryExperiences.length - 1) {
+      const nextExp = categoryExperiences[currentIndex + 1];
+      navigate(`/experience/${nextExp.id}`);
+    }
+  };
+
   if (loading) {
     return (
       <main style={{ padding: "40px 0" }}>
@@ -115,10 +139,13 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
     );
   }
 
+  const hasPrevious = currentIndex > 0;
+  const hasNext = currentIndex < categoryExperiences.length - 1;
+
   return (
     <main style={{ padding: "20px 0 60px" }}>
       {/* Back Navigation */}
-      <div style={{ marginBottom: 30, maxWidth: 900, margin: "0 auto 30px" }}>
+      <div style={{ maxWidth: 750, margin: "0 auto 30px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <Link 
           to={`/category/${encodeURIComponent(experience.category)}`}
           style={{ 
@@ -134,12 +161,81 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
         >
           ← Back to {experience.category}
         </Link>
+
+        {/* Next/Previous Navigation */}
+        <div style={{ display: "flex", gap: 12 }}>
+          <button
+            onClick={handlePrevious}
+            disabled={!hasPrevious}
+            style={{
+              padding: "8px 16px",
+              borderRadius: 999,
+              border: "1px solid rgba(255,255,255,0.15)",
+              background: hasPrevious ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.02)",
+              color: hasPrevious ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.3)",
+              fontSize: 12,
+              letterSpacing: 1.5,
+              textTransform: "uppercase",
+              fontWeight: 500,
+              cursor: hasPrevious ? "pointer" : "not-allowed",
+              transition: "all 180ms ease",
+              fontFamily: "inherit"
+            }}
+            onMouseEnter={(e) => {
+              if (hasPrevious) {
+                e.target.style.background = "rgba(255,255,255,0.1)";
+                e.target.style.borderColor = "rgba(255,255,255,0.25)";
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (hasPrevious) {
+                e.target.style.background = "rgba(255,255,255,0.05)";
+                e.target.style.borderColor = "rgba(255,255,255,0.15)";
+              }
+            }}
+          >
+            ← Previous
+          </button>
+
+          <button
+            onClick={handleNext}
+            disabled={!hasNext}
+            style={{
+              padding: "8px 16px",
+              borderRadius: 999,
+              border: "1px solid rgba(255,255,255,0.15)",
+              background: hasNext ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.02)",
+              color: hasNext ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.3)",
+              fontSize: 12,
+              letterSpacing: 1.5,
+              textTransform: "uppercase",
+              fontWeight: 500,
+              cursor: hasNext ? "pointer" : "not-allowed",
+              transition: "all 180ms ease",
+              fontFamily: "inherit"
+            }}
+            onMouseEnter={(e) => {
+              if (hasNext) {
+                e.target.style.background = "rgba(255,255,255,0.1)";
+                e.target.style.borderColor = "rgba(255,255,255,0.25)";
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (hasNext) {
+                e.target.style.background = "rgba(255,255,255,0.05)";
+                e.target.style.borderColor = "rgba(255,255,255,0.15)";
+              }
+            }}
+          >
+            Next →
+          </button>
+        </div>
       </div>
 
-      <div style={{ maxWidth: 900, margin: "0 auto" }}>
+      <div style={{ maxWidth: 750, margin: "0 auto" }}>
         {/* Hero Image */}
         <div style={{
-          height: 320,
+          height: 280,
           width: "100%",
           borderRadius: 24,
           overflow: "hidden",
@@ -164,8 +260,8 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
               position: "absolute",
               top: 20,
               right: 20,
-              width: 50,
-              height: 50,
+              width: 46,
+              height: 46,
               borderRadius: "50%",
               border: "1px solid rgba(255,255,255,0.3)",
               background: isInWishlist ? "rgba(220,38,38,0.9)" : "rgba(0,0,0,0.5)",
@@ -174,7 +270,7 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: 22,
+              fontSize: 20,
               transition: "all 200ms ease"
             }}
             onMouseEnter={(e) => {
@@ -191,7 +287,7 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
         </div>
 
         {/* Content Grid */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: 40 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 300px", gap: 36 }}>
           {/* Left Column: Details */}
           <div>
             <div style={{ marginBottom: 10 }}>
@@ -206,7 +302,7 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
             </div>
 
             <h1 style={{
-              fontSize: "2rem",
+              fontSize: "1.85rem",
               fontWeight: 300,
               letterSpacing: 0.8,
               margin: "0 0 20px 0",
@@ -218,7 +314,7 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
 
             <div style={{
               display: "flex",
-              gap: 28,
+              gap: 24,
               marginBottom: 28,
               paddingBottom: 28,
               borderBottom: "1px solid rgba(255,255,255,0.1)"
@@ -227,25 +323,25 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
                 <div style={{ fontSize: 11, letterSpacing: 1.5, textTransform: "uppercase", opacity: 0.6, marginBottom: 5 }}>
                   Duration
                 </div>
-                <div style={{ fontSize: 14, color: "#fff" }}>{experience.duration}</div>
+                <div style={{ fontSize: 13, color: "#fff" }}>{experience.duration}</div>
               </div>
               <div>
                 <div style={{ fontSize: 11, letterSpacing: 1.5, textTransform: "uppercase", opacity: 0.6, marginBottom: 5 }}>
                   Group Size
                 </div>
-                <div style={{ fontSize: 14, color: "#fff" }}>{experience.groupSize}</div>
+                <div style={{ fontSize: 13, color: "#fff" }}>{experience.groupSize}</div>
               </div>
               <div>
                 <div style={{ fontSize: 11, letterSpacing: 1.5, textTransform: "uppercase", opacity: 0.6, marginBottom: 5 }}>
                   Languages
                 </div>
-                <div style={{ fontSize: 14, color: "#fff" }}>{experience.languages?.join(", ")}</div>
+                <div style={{ fontSize: 13, color: "#fff" }}>{experience.languages?.join(", ")}</div>
               </div>
             </div>
 
             {/* Description */}
             <div style={{ marginBottom: 36 }}>
-              <h2 style={{ fontSize: 18, fontWeight: 400, letterSpacing: 0.5, marginBottom: 14, color: "#fff" }}>
+              <h2 style={{ fontSize: 17, fontWeight: 400, letterSpacing: 0.5, marginBottom: 14, color: "#fff" }}>
                 Overview
               </h2>
               <p style={{ fontSize: 14, lineHeight: 1.8, color: "rgba(255,255,255,0.85)", margin: 0 }}>
@@ -256,7 +352,7 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
             {/* Detailed Itinerary */}
             {experience.detailedItinerary && experience.detailedItinerary.length > 0 && (
               <div style={{ marginBottom: 36 }}>
-                <h2 style={{ fontSize: 18, fontWeight: 400, letterSpacing: 0.5, marginBottom: 20, color: "#fff" }}>
+                <h2 style={{ fontSize: 17, fontWeight: 400, letterSpacing: 0.5, marginBottom: 20, color: "#fff" }}>
                   Itinerary
                 </h2>
                 <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
@@ -265,10 +361,10 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
                       paddingLeft: 20,
                       borderLeft: "2px solid rgba(255,255,255,0.15)"
                     }}>
-                      <div style={{ fontSize: 12, letterSpacing: 1, textTransform: "uppercase", color: "rgba(255,255,255,0.5)", marginBottom: 5 }}>
+                      <div style={{ fontSize: 11, letterSpacing: 1, textTransform: "uppercase", color: "rgba(255,255,255,0.5)", marginBottom: 5 }}>
                         {item.time}
                       </div>
-                      <div style={{ fontSize: 15, fontWeight: 400, marginBottom: 7, color: "#fff" }}>
+                      <div style={{ fontSize: 14, fontWeight: 400, marginBottom: 7, color: "#fff" }}>
                         {item.title}
                       </div>
                       <div style={{ fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.75)" }}>
@@ -283,13 +379,13 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
             {/* What's Included */}
             {experience.included && experience.included.length > 0 && (
               <div style={{ marginBottom: 36 }}>
-                <h2 style={{ fontSize: 18, fontWeight: 400, letterSpacing: 0.5, marginBottom: 14, color: "#fff" }}>
+                <h2 style={{ fontSize: 17, fontWeight: 400, letterSpacing: 0.5, marginBottom: 14, color: "#fff" }}>
                   What's Included
                 </h2>
                 <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 9 }}>
                   {experience.included.map((item, index) => (
                     <li key={index} style={{ fontSize: 13, color: "rgba(255,255,255,0.85)", display: "flex", alignItems: "flex-start", gap: 10 }}>
-                      <span style={{ color: "#10b981", fontSize: 15 }}>✓</span>
+                      <span style={{ color: "#10b981", fontSize: 14 }}>✓</span>
                       <span>{item}</span>
                     </li>
                   ))}
@@ -300,13 +396,13 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
             {/* What's NOT Included */}
             {experience.notIncluded && experience.notIncluded.length > 0 && (
               <div style={{ marginBottom: 36 }}>
-                <h2 style={{ fontSize: 18, fontWeight: 400, letterSpacing: 0.5, marginBottom: 14, color: "#fff" }}>
+                <h2 style={{ fontSize: 17, fontWeight: 400, letterSpacing: 0.5, marginBottom: 14, color: "#fff" }}>
                   What's Not Included
                 </h2>
                 <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 9 }}>
                   {experience.notIncluded.map((item, index) => (
                     <li key={index} style={{ fontSize: 13, color: "rgba(255,255,255,0.65)", display: "flex", alignItems: "flex-start", gap: 10 }}>
-                      <span style={{ opacity: 0.5, fontSize: 15 }}>✗</span>
+                      <span style={{ opacity: 0.5, fontSize: 14 }}>✗</span>
                       <span>{item}</span>
                     </li>
                   ))}
@@ -317,13 +413,13 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
             {/* Special Features */}
             {experience.specialFeatures && experience.specialFeatures.length > 0 && (
               <div style={{ marginBottom: 36 }}>
-                <h2 style={{ fontSize: 18, fontWeight: 400, letterSpacing: 0.5, marginBottom: 14, color: "#fff" }}>
+                <h2 style={{ fontSize: 17, fontWeight: 400, letterSpacing: 0.5, marginBottom: 14, color: "#fff" }}>
                   What Makes This Special
                 </h2>
                 <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 9 }}>
                   {experience.specialFeatures.map((item, index) => (
                     <li key={index} style={{ fontSize: 13, color: "rgba(255,255,255,0.85)", display: "flex", alignItems: "flex-start", gap: 10 }}>
-                      <span style={{ fontSize: 15 }}>✦</span>
+                      <span style={{ fontSize: 14 }}>✦</span>
                       <span>{item}</span>
                     </li>
                   ))}
@@ -334,31 +430,31 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
             {/* Booking Details */}
             {experience.bookingDetails && (
               <div style={{ marginBottom: 36 }}>
-                <h2 style={{ fontSize: 18, fontWeight: 400, letterSpacing: 0.5, marginBottom: 14, color: "#fff" }}>
+                <h2 style={{ fontSize: 17, fontWeight: 400, letterSpacing: 0.5, marginBottom: 14, color: "#fff" }}>
                   Know Before You Book
                 </h2>
                 <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                   {experience.bookingDetails.advanceNotice && (
                     <div>
-                      <span style={{ fontSize: 12, letterSpacing: 1, textTransform: "uppercase", color: "rgba(255,255,255,0.6)" }}>Advance Notice: </span>
+                      <span style={{ fontSize: 11, letterSpacing: 1, textTransform: "uppercase", color: "rgba(255,255,255,0.6)" }}>Advance Notice: </span>
                       <span style={{ fontSize: 13, color: "rgba(255,255,255,0.85)" }}>{experience.bookingDetails.advanceNotice}</span>
                     </div>
                   )}
                   {experience.bookingDetails.cancellationPolicy && (
                     <div>
-                      <span style={{ fontSize: 12, letterSpacing: 1, textTransform: "uppercase", color: "rgba(255,255,255,0.6)" }}>Cancellation: </span>
+                      <span style={{ fontSize: 11, letterSpacing: 1, textTransform: "uppercase", color: "rgba(255,255,255,0.6)" }}>Cancellation: </span>
                       <span style={{ fontSize: 13, color: "rgba(255,255,255,0.85)" }}>{experience.bookingDetails.cancellationPolicy}</span>
                     </div>
                   )}
                   {experience.bookingDetails.dresscode && (
                     <div>
-                      <span style={{ fontSize: 12, letterSpacing: 1, textTransform: "uppercase", color: "rgba(255,255,255,0.6)" }}>Dress Code: </span>
+                      <span style={{ fontSize: 11, letterSpacing: 1, textTransform: "uppercase", color: "rgba(255,255,255,0.6)" }}>Dress Code: </span>
                       <span style={{ fontSize: 13, color: "rgba(255,255,255,0.85)" }}>{experience.bookingDetails.dresscode}</span>
                     </div>
                   )}
                   {experience.bookingDetails.accessibility && (
                     <div>
-                      <span style={{ fontSize: 12, letterSpacing: 1, textTransform: "uppercase", color: "rgba(255,255,255,0.6)" }}>Accessibility: </span>
+                      <span style={{ fontSize: 11, letterSpacing: 1, textTransform: "uppercase", color: "rgba(255,255,255,0.6)" }}>Accessibility: </span>
                       <span style={{ fontSize: 13, color: "rgba(255,255,255,0.85)" }}>{experience.bookingDetails.accessibility}</span>
                     </div>
                   )}
@@ -372,20 +468,20 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
             <div style={{
               position: "sticky",
               top: 100,
-              padding: 28,
-              borderRadius: 20,
+              padding: 24,
+              borderRadius: 18,
               border: "1px solid rgba(255,255,255,0.1)",
               background: "rgba(255,255,255,0.03)",
               boxShadow: "0 20px 60px rgba(0,0,0,0.4)"
             }}>
-              <div style={{ marginBottom: 22 }}>
-                <div style={{ fontSize: 12, letterSpacing: 1.5, textTransform: "uppercase", opacity: 0.6, marginBottom: 7 }}>
+              <div style={{ marginBottom: 20 }}>
+                <div style={{ fontSize: 11, letterSpacing: 1.5, textTransform: "uppercase", opacity: 0.6, marginBottom: 6 }}>
                   Price
                 </div>
-                <div style={{ fontSize: 32, fontWeight: 300, color: "#fff", letterSpacing: -0.5 }}>
+                <div style={{ fontSize: 28, fontWeight: 300, color: "#fff", letterSpacing: -0.5 }}>
                   €{experience.price}
                 </div>
-                <div style={{ fontSize: 12, opacity: 0.6, marginTop: 4 }}>
+                <div style={{ fontSize: 11, opacity: 0.6, marginTop: 4 }}>
                   per person
                 </div>
               </div>
@@ -394,18 +490,18 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
                 onClick={handleRequestToBook}
                 style={{
                   width: "100%",
-                  padding: "14px 22px",
+                  padding: "13px 20px",
                   borderRadius: 999,
                   border: "1px solid rgba(255,255,255,0.2)",
                   background: "rgba(255,255,255,0.1)",
                   color: "#fff",
-                  fontSize: 12,
+                  fontSize: 11,
                   letterSpacing: 2,
                   textTransform: "uppercase",
                   fontWeight: 500,
                   cursor: "pointer",
                   transition: "all 200ms ease",
-                  marginBottom: 12
+                  marginBottom: 10
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = "rgba(255,255,255,0.15)";
@@ -423,12 +519,12 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
                 onClick={handleWishlistToggle}
                 style={{
                   width: "100%",
-                  padding: "14px 22px",
+                  padding: "13px 20px",
                   borderRadius: 999,
                   border: "1px solid rgba(255,255,255,0.15)",
                   background: "transparent",
                   color: "rgba(255,255,255,0.85)",
-                  fontSize: 12,
+                  fontSize: 11,
                   letterSpacing: 2,
                   textTransform: "uppercase",
                   fontWeight: 500,
@@ -437,7 +533,7 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  gap: 8
+                  gap: 7
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)";
@@ -450,10 +546,10 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
               </button>
 
               <div style={{
-                marginTop: 22,
-                paddingTop: 22,
+                marginTop: 20,
+                paddingTop: 20,
                 borderTop: "1px solid rgba(255,255,255,0.1)",
-                fontSize: 12,
+                fontSize: 11,
                 lineHeight: 1.7,
                 color: "rgba(255,255,255,0.7)"
               }}>
@@ -461,11 +557,11 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
               </div>
 
               {experience.meetingPoint && experience.meetingPoint !== "N/A - reservation service" && (
-                <div style={{ marginTop: 18 }}>
-                  <div style={{ fontSize: 11, letterSpacing: 1.5, textTransform: "uppercase", color: "rgba(255,255,255,0.5)", marginBottom: 7 }}>
+                <div style={{ marginTop: 16 }}>
+                  <div style={{ fontSize: 10, letterSpacing: 1.5, textTransform: "uppercase", color: "rgba(255,255,255,0.5)", marginBottom: 6 }}>
                     Meeting Point
                   </div>
-                  <div style={{ fontSize: 12, color: "rgba(255,255,255,0.8)" }}>
+                  <div style={{ fontSize: 11, color: "rgba(255,255,255,0.8)" }}>
                     {experience.meetingPoint}
                   </div>
                 </div>
@@ -497,7 +593,7 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
       {/* Mobile Responsive */}
       <style>{`
         @media (max-width: 1024px) {
-          div[style*="gridTemplateColumns: 1fr 340px"] {
+          div[style*="gridTemplateColumns: 1fr 300px"] {
             grid-template-columns: 1fr !important;
           }
         }

@@ -1,6 +1,6 @@
 import { useNavigate, Link } from "react-router-dom";
 
-function BookingsView({ bookings = [], bookingRequests = [], wishlist = [], onCancelBooking, onCancelRequest, onRemoveFromWishlist }) {
+function BookingsView({ bookings = [], bookingRequests = [], wishlist = [], onCancelBooking, onCancelRequest, onRemoveFromWishlist, user }) {
   const navigate = useNavigate();
 
   // Mock data for upcoming bookings (you'll replace this with real data later)
@@ -412,7 +412,7 @@ function BookingsView({ bookings = [], bookingRequests = [], wishlist = [], onCa
         )}
       </section>
 
-      {/* Upcoming Experiences */}
+      {/* Upcoming Experiences - Login Required */}
       <section>
         <h3 style={{
           color: "#fff",
@@ -437,7 +437,45 @@ function BookingsView({ bookings = [], bookingRequests = [], wishlist = [], onCa
           )}
         </h3>
 
-        {upcomingBookings.length === 0 ? (
+        {!user ? (
+          <div style={{
+            padding: "60px 20px",
+            textAlign: "center",
+            borderRadius: 20,
+            border: "1px solid rgba(255,255,255,0.08)",
+            background: "rgba(255,255,255,0.02)"
+          }}>
+            <p style={{
+              color: "rgba(255,255,255,0.7)",
+              fontSize: 15,
+              marginBottom: 24,
+              margin: "0 0 24px 0"
+            }}>
+              Sign in to view your upcoming experiences
+            </p>
+            <button
+              onClick={() => window.scrollTo(0, 0)}
+              style={{
+                padding: "12px 28px",
+                borderRadius: 999,
+                border: "1px solid rgba(255,255,255,0.2)",
+                background: "rgba(255,255,255,0.1)",
+                color: "#fff",
+                fontSize: 13,
+                letterSpacing: 1.5,
+                textTransform: "uppercase",
+                fontWeight: 500,
+                cursor: "pointer",
+                transition: "all 180ms ease",
+                fontFamily: "inherit"
+              }}
+              onMouseEnter={(e) => e.target.style.background = "rgba(255,255,255,0.15)"}
+              onMouseLeave={(e) => e.target.style.background = "rgba(255,255,255,0.1)"}
+            >
+              Login
+            </button>
+          </div>
+        ) : upcomingBookings.length === 0 ? (
           <div style={{
             padding: "60px 20px",
             textAlign: "center",

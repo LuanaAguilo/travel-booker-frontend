@@ -35,3 +35,14 @@ body {
   color: var(--color-text);
   font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
 }
+
+html, body {
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}

@@ -1,11 +1,12 @@
 import { Link, Routes, Route, useLocation } from "react-router-dom";
+import { useEffect, useState, useCallback } from "react";
 import "./theme.css";
 
 import HomeView from "./views/HomeView";
 import BookingsView from "./views/BookingsView";
 import CategoryView from "./views/CategoryView";
 import ExperienceDetailView from "./views/ExperienceDetailView";
-import { useState, useCallback } from "react";
+import LoginModal from "./components/LoginModal";
 
 function AboutView() {
   return (
@@ -369,6 +370,22 @@ export default function App() {
   const [bookings, setBookings] = useState([]);
   const [wishlist, setWishlist] = useState([]);
   const [bookingRequests, setBookingRequests] = useState([]);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+  const [user, setUser] = useState(null);
+
+  // Scroll to top on route change
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
+  // Load user from localStorage on mount
+  useEffect(() => {
+    const savedUser = localStorage.getItem('madrid_signature_user');
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
+    }
+  }, []);
 
   const handleBook = useCallback((experience) => {
     setBookings((prev) => {
@@ -409,6 +426,18 @@ export default function App() {
     setBookingRequests((prev) => prev.filter((r) => r.id !== requestId));
   }, []);
 
+  const handleLogin = (userData) => {
+    setUser(userData);
+    localStorage.setItem('madrid_signature_user', JSON.stringify(userData));
+    setShowLoginModal(false);
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem('madrid_signature_user');
+    setShowProfileDropdown(false);
+  };
+
   const linkBase = {
     color: "rgba(255,255,255,0.88)",
     fontWeight: 400,
@@ -436,8 +465,7 @@ export default function App() {
         background: "#0e0e10",
         display: "flex",
         flexDirection: "column",
-        width: "100vw",
-        overflowX: "hidden",
+        width: "100%",
         fontFamily:
           "Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif",
       }}
@@ -456,19 +484,167 @@ export default function App() {
           zIndex: 1000,
           backdropFilter: "blur(10px)",
           WebkitBackdropFilter: "blur(10px)",
+          willChange: "transform",
         }}
       >
-        <h1
-          style={{
-            margin: 0,
-            color: "#ffffff",
-            fontSize: "1.85rem",
-            fontWeight: 300,
-            letterSpacing: 2.6,
-          }}
-        >
-          Madrid Signature
-        </h1>
+        <div style={{ 
+          width: "100%", 
+          maxWidth: "1180px",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center"
+        }}>
+          <div style={{ flex: 1 }} />
+          
+          <h1
+            style={{
+              margin: 0,
+              color: "#ffffff",
+              fontSize: "1.85rem",
+              fontWeight: 300,
+              letterSpacing: 2.6,
+            }}
+          >
+            Madrid Signature
+          </h1>
+
+          {/* Profile/Login Section */}
+          <div style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>
+            {user ? (
+              <div style={{ position: "relative" }}>
+                <button
+                  onClick={() => setShowProfileDropdown(!showProfileDropdown)}
+                  style={{
+                    background: "rgba(255,255,255,0.08)",
+                    border: "1px solid rgba(255,255,255,0.15)",
+                    borderRadius: "50%",
+                    width: 40,
+                    height: 40,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    cursor: "pointer",
+                    transition: "all 180ms ease",
+                    color: "#fff",
+                    fontSize: 16,
+                    fontWeight: 500
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = "rgba(255,255,255,0.12)";
+                    e.currentTarget.style.borderColor = "rgba(255,255,255,0.25)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = "rgba(255,255,255,0.08)";
+                    e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)";
+                  }}
+                >
+                  {user.name.charAt(0).toUpperCase()}
+                </button>
+
+                {/* Dropdown Menu */}
+                {showProfileDropdown && (
+                  <div style={{
+                    position: "absolute",
+                    top: "calc(100% + 10px)",
+                    right: 0,
+                    background: "rgba(20, 20, 22, 0.98)",
+                    border: "1px solid rgba(255,255,255,0.15)",
+                    borderRadius: 12,
+                    padding: 8,
+                    minWidth: 200,
+                    boxShadow: "0 12px 40px rgba(0,0,0,0.5)"
+                  }}>
+                    <div style={{
+                      padding: "12px 16px",
+                      borderBottom: "1px solid rgba(255,255,255,0.1)",
+                      marginBottom: 8
+                    }}>
+                      <div style={{ fontSize: 14, fontWeight: 500, color: "#fff", marginBottom: 4 }}>
+                        {user.name}
+                      </div>
+                      <div style={{ fontSize: 12, color: "rgba(255,255,255,0.6)" }}>
+                        {user.email}
+                      </div>
+                    </div>
+
+                    <Link
+                      to="/bookings"
+                      onClick={() => setShowProfileDropdown(false)}
+                      style={{
+                        display: "block",
+                        padding: "10px 16px",
+                        color: "rgba(255,255,255,0.85)",
+                        textDecoration: "none",
+                        fontSize: 13,
+                        borderRadius: 6,
+                        transition: "all 180ms ease"
+                      }}
+                      onMouseEnter={(e) => e.target.style.background = "rgba(255,255,255,0.08)"}
+                      onMouseLeave={(e) => e.target.style.background = "transparent"}
+                    >
+                      Your Experiences
+                    </Link>
+
+                    <button
+                      onClick={handleLogout}
+                      style={{
+                        width: "100%",
+                        padding: "10px 16px",
+                        background: "transparent",
+                        border: "none",
+                        color: "rgba(255,255,255,0.85)",
+                        textAlign: "left",
+                        fontSize: 13,
+                        cursor: "pointer",
+                        borderRadius: 6,
+                        transition: "all 180ms ease",
+                        fontFamily: "inherit"
+                      }}
+                      onMouseEnter={(e) => {
+                        e.target.style.background = "rgba(239,68,68,0.1)";
+                        e.target.style.color = "#ef4444";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.target.style.background = "transparent";
+                        e.target.style.color = "rgba(255,255,255,0.85)";
+                      }}
+                    >
+                      Sign Out
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <button
+                onClick={() => setShowLoginModal(true)}
+                style={{
+                  background: "rgba(255,255,255,0.08)",
+                  border: "1px solid rgba(255,255,255,0.15)",
+                  borderRadius: 999,
+                  padding: "8px 20px",
+                  color: "#fff",
+                  fontSize: 12,
+                  letterSpacing: 1.5,
+                  textTransform: "uppercase",
+                  fontWeight: 500,
+                  cursor: "pointer",
+                  transition: "all 180ms ease",
+                  fontFamily: "inherit"
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "rgba(255,255,255,0.12)";
+                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.25)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "rgba(255,255,255,0.08)";
+                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)";
+                }}
+              >
+                Login
+              </button>
+            )}
+          </div>
+        </div>
 
         <nav
           style={{
@@ -527,6 +703,7 @@ export default function App() {
                 onCancelBooking={handleCancelBooking}
                 onCancelRequest={handleCancelRequest}
                 onRemoveFromWishlist={handleRemoveFromWishlist}
+                user={user}
               />
             }
           />
@@ -540,7 +717,7 @@ export default function App() {
           width: "100%",
           background: "rgba(14,14,16,0.95)",
           borderTop: "1px solid rgba(255,255,255,0.08)",
-          padding: "50px 20px 30px",
+          padding: "60px 20px 40px",
           marginTop: "auto"
         }}
       >
@@ -548,18 +725,18 @@ export default function App() {
           maxWidth: "1180px",
           margin: "0 auto",
           display: "grid",
-          gridTemplateColumns: "2fr 1fr 1fr",
-          gap: 48,
-          marginBottom: 40
+          gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+          gap: 48
         }}>
-          {/* Brand */}
+          {/* About Section */}
           <div>
             <h3 style={{
-              margin: "0 0 16px 0",
               color: "#fff",
-              fontSize: "1.5rem",
+              fontSize: 18,
               fontWeight: 300,
-              letterSpacing: 2
+              letterSpacing: 1.5,
+              marginTop: 0,
+              marginBottom: 16
             }}>
               Madrid Signature
             </h3>
@@ -567,142 +744,108 @@ export default function App() {
               color: "rgba(255,255,255,0.6)",
               fontSize: 14,
               lineHeight: 1.7,
-              margin: 0,
-              maxWidth: 400
+              margin: 0
             }}>
-              Curated experiences that reveal Madrid's hidden elegance. From private dining to VIP nightlife, we provide seamless access to the city's finest moments.
+              Curated experiences in Madrid's finest establishments. We provide exclusive access to the city's hidden gems and cultural treasures.
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
             <h4 style={{
-              margin: "0 0 20px 0",
               color: "#fff",
-              fontSize: 13,
-              fontWeight: 500,
-              letterSpacing: 2,
-              textTransform: "uppercase"
+              fontSize: 14,
+              fontWeight: 400,
+              letterSpacing: 1.8,
+              textTransform: "uppercase",
+              marginTop: 0,
+              marginBottom: 16,
+              opacity: 0.9
             }}>
               Quick Links
             </h4>
-            <nav style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 12
-            }}>
-              <Link to="/" style={{
-                color: "rgba(255,255,255,0.7)",
-                textDecoration: "none",
-                fontSize: 14,
-                transition: "color 180ms ease"
-              }}
-              onMouseEnter={(e) => e.target.style.color = "#fff"}
-              onMouseLeave={(e) => e.target.style.color = "rgba(255,255,255,0.7)"}
-              >
-                Home
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              <Link to="/" style={{ color: "rgba(255,255,255,0.6)", fontSize: 14, textDecoration: "none", transition: "color 180ms ease" }}
+                onMouseEnter={(e) => e.target.style.color = "#fff"}
+                onMouseLeave={(e) => e.target.style.color = "rgba(255,255,255,0.6)"}>
+                Experiences
               </Link>
-              <Link to="/about" style={{
-                color: "rgba(255,255,255,0.7)",
-                textDecoration: "none",
-                fontSize: 14,
-                transition: "color 180ms ease"
-              }}
-              onMouseEnter={(e) => e.target.style.color = "#fff"}
-              onMouseLeave={(e) => e.target.style.color = "rgba(255,255,255,0.7)"}
-              >
-                About
+              <Link to="/about" style={{ color: "rgba(255,255,255,0.6)", fontSize: 14, textDecoration: "none", transition: "color 180ms ease" }}
+                onMouseEnter={(e) => e.target.style.color = "#fff"}
+                onMouseLeave={(e) => e.target.style.color = "rgba(255,255,255,0.6)"}>
+                About Us
               </Link>
-              <Link to="/bookings" style={{
-                color: "rgba(255,255,255,0.7)",
-                textDecoration: "none",
-                fontSize: 14,
-                transition: "color 180ms ease"
-              }}
-              onMouseEnter={(e) => e.target.style.color = "#fff"}
-              onMouseLeave={(e) => e.target.style.color = "rgba(255,255,255,0.7)"}
-              >
+              <Link to="/bookings" style={{ color: "rgba(255,255,255,0.6)", fontSize: 14, textDecoration: "none", transition: "color 180ms ease" }}
+                onMouseEnter={(e) => e.target.style.color = "#fff"}
+                onMouseLeave={(e) => e.target.style.color = "rgba(255,255,255,0.6)"}>
                 Your Experiences
               </Link>
-              <Link to="/contact" style={{
-                color: "rgba(255,255,255,0.7)",
-                textDecoration: "none",
-                fontSize: 14,
-                transition: "color 180ms ease"
-              }}
-              onMouseEnter={(e) => e.target.style.color = "#fff"}
-              onMouseLeave={(e) => e.target.style.color = "rgba(255,255,255,0.7)"}
-              >
+              <Link to="/contact" style={{ color: "rgba(255,255,255,0.6)", fontSize: 14, textDecoration: "none", transition: "color 180ms ease" }}
+                onMouseEnter={(e) => e.target.style.color = "#fff"}
+                onMouseLeave={(e) => e.target.style.color = "rgba(255,255,255,0.6)"}>
                 Contact
               </Link>
-            </nav>
+            </div>
           </div>
 
           {/* Contact Info */}
           <div>
             <h4 style={{
-              margin: "0 0 20px 0",
               color: "#fff",
-              fontSize: 13,
-              fontWeight: 500,
-              letterSpacing: 2,
-              textTransform: "uppercase"
+              fontSize: 14,
+              fontWeight: 400,
+              letterSpacing: 1.8,
+              textTransform: "uppercase",
+              marginTop: 0,
+              marginBottom: 16,
+              opacity: 0.9
             }}>
               Contact
             </h4>
-            <div style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 12,
-              fontSize: 14,
-              color: "rgba(255,255,255,0.7)"
-            }}>
-              <a href="mailto:info@madridsignature.com" style={{
-                color: "rgba(255,255,255,0.7)",
-                textDecoration: "none",
-                transition: "color 180ms ease"
-              }}
-              onMouseEnter={(e) => e.target.style.color = "#fff"}
-              onMouseLeave={(e) => e.target.style.color = "rgba(255,255,255,0.7)"}
-              >
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              <a href="mailto:info@madridsignature.com" style={{ color: "rgba(255,255,255,0.6)", fontSize: 14, textDecoration: "none", transition: "color 180ms ease" }}
+                onMouseEnter={(e) => e.target.style.color = "#fff"}
+                onMouseLeave={(e) => e.target.style.color = "rgba(255,255,255,0.6)"}>
                 info@madridsignature.com
               </a>
-              <a href="https://wa.me/34609366269" style={{
-                color: "rgba(255,255,255,0.7)",
-                textDecoration: "none",
-                transition: "color 180ms ease"
-              }}
-              onMouseEnter={(e) => e.target.style.color = "#fff"}
-              onMouseLeave={(e) => e.target.style.color = "rgba(255,255,255,0.7)"}
-              >
+              <a href="https://wa.me/34609366269" target="_blank" rel="noopener noreferrer" style={{ color: "rgba(255,255,255,0.6)", fontSize: 14, textDecoration: "none", transition: "color 180ms ease" }}
+                onMouseEnter={(e) => e.target.style.color = "#fff"}
+                onMouseLeave={(e) => e.target.style.color = "rgba(255,255,255,0.6)"}>
                 +34 609 366 269
               </a>
-              <div>Calle Ortega Y Gasset 6<br />28006, Madrid</div>
+              <p style={{ color: "rgba(255,255,255,0.6)", fontSize: 14, margin: 0 }}>
+                Calle Ortega Y Gasset 6<br />
+                28006, Madrid
+              </p>
             </div>
           </div>
         </div>
 
-        {/* Bottom Bar */}
+        {/* Copyright */}
         <div style={{
-          borderTop: "1px solid rgba(255,255,255,0.08)",
+          maxWidth: "1180px",
+          margin: "40px auto 0",
           paddingTop: 24,
-          textAlign: "center",
-          color: "rgba(255,255,255,0.5)",
-          fontSize: 13
+          borderTop: "1px solid rgba(255,255,255,0.08)",
+          textAlign: "center"
         }}>
-          © {new Date().getFullYear()} Madrid Signature. All rights reserved.
+          <p style={{
+            color: "rgba(255,255,255,0.5)",
+            fontSize: 13,
+            margin: 0
+          }}>
+            © {new Date().getFullYear()} Madrid Signature. All rights reserved.
+          </p>
         </div>
-
-        {/* Responsive Footer */}
-        <style>{`
-          @media (max-width: 900px) {
-            div[style*="gridTemplateColumns: 2fr 1fr 1fr"] {
-              grid-template-columns: 1fr !important;
-              gap: 32px !important;
-            }
-          }
-        `}</style>
       </footer>
+
+      {/* Login Modal */}
+      {showLoginModal && (
+        <LoginModal 
+          onClose={() => setShowLoginModal(false)}
+          onLogin={handleLogin}
+        />
+      )}
     </div>
   );
 }
