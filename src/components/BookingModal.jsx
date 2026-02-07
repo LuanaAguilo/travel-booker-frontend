@@ -68,27 +68,25 @@ export default function BookingModal({ experience, onContinue, onCancel }) {
             value={date}
             onChange={e => setDate(e.target.value)}
             min={new Date().toISOString().split('T')[0]}
+            className="date-input-light"
             style={{
               width: "100%",
               padding: "14px 16px",
               borderRadius: 10,
               border: "1px solid rgba(255, 255, 255, 0.2)",
               fontSize: "1rem",
-              background: "rgba(255, 255, 255, 0.08)",
-              color: "#fff",
+              background: "#fff",
+              color: "#000",
               outline: "none",
               transition: "all 0.2s",
               fontFamily: "inherit",
-              boxSizing: "border-box",
-              colorScheme: "dark"
+              boxSizing: "border-box"
             }}
             onFocus={(e) => {
               e.target.style.borderColor = "rgba(255, 255, 255, 0.4)";
-              e.target.style.background = "rgba(255, 255, 255, 0.12)";
             }}
             onBlur={(e) => {
               e.target.style.borderColor = "rgba(255, 255, 255, 0.2)";
-              e.target.style.background = "rgba(255, 255, 255, 0.08)";
             }}
           />
         </div>
@@ -160,26 +158,6 @@ export default function BookingModal({ experience, onContinue, onCancel }) {
           </button>
         </div>
       </div>
-
-      {/* Custom CSS for date picker calendar icon */}
-      <style>{`
-        input[type="date"]::-webkit-calendar-picker-indicator {
-          filter: invert(1);
-          cursor: pointer;
-          opacity: 0.8;
-        }
-        
-        input[type="date"]::-webkit-calendar-picker-indicator:hover {
-          opacity: 1;
-        }
-
-        /* Firefox */
-        input[type="date"]::-moz-calendar-picker-indicator {
-          filter: invert(1);
-          cursor: pointer;
-          opacity: 0.8;
-        }
-      `}</style>
     </div>
   );
 }
