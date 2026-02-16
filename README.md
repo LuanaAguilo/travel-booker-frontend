@@ -20,9 +20,9 @@ Explore gastronomy, culture, and adventure with a premium interface inspired by 
 
 ## Demo
 
-- [Live app (example)](https://yourdomain.com) <!-- Change to your real URL -->
-- [Frontend on GitHub](https://github.com/youruser/travel-booker-frontend)
-- [Backend on GitHub](https://github.com/youruser/travel-booker-backend)
+- [Live app (example)](https://madrid-signature.netlify.app)
+- [Frontend on GitHub](https://github.com/LuanaAguilo/travel-booker-frontend?tab=readme-ov-file)
+- [Backend on GitHub](https://github.com/LuanaAguilo/travel-booker-frontend)
 
 ---
 
@@ -30,12 +30,12 @@ Explore gastronomy, culture, and adventure with a premium interface inspired by 
 
 ```bash
 # Clone frontend
-git clone https://github.com/youruser/travel-booker-frontend.git
+git clone https://github.com/LuanaAguilo/travel-booker-frontend
 cd travel-booker-frontend
 npm install
 
 # Clone and start backend (in another terminal)
-git clone https://github.com/youruser/travel-booker-backend.git
+git clone https://github.com/LuanaAguilo/travel-booker-backend
 cd travel-booker-backend
 npm install
 npm run dev
