@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 function BookingsView({ bookings = [], bookingRequests = [], wishlist = [], onCancelBooking, onCancelRequest, onRemoveFromWishlist, user }) {
   const navigate = useNavigate();
 
-  // Mock data for upcoming bookings (you'll replace this with real data later)
+  // Mock data for upcoming bookings
   const upcomingBookings = [];
 
   const handleExperienceClick = (experienceId) => {
@@ -12,7 +12,7 @@ function BookingsView({ bookings = [], bookingRequests = [], wishlist = [], onCa
 
   return (
     <main style={{ padding: "20px 0 60px" }}>
-      {/* Saved for Later (Wishlist) */}
+      {/* Saved for later */}
       <section style={{ marginBottom: 60 }}>
         <h3 style={{
           color: "#fff",
@@ -159,7 +159,7 @@ function BookingsView({ bookings = [], bookingRequests = [], wishlist = [], onCa
                   </div>
                 </div>
 
-                {/* Remove from Wishlist Button */}
+                {/* Remove from wishlist button */}
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
@@ -196,7 +196,7 @@ function BookingsView({ bookings = [], bookingRequests = [], wishlist = [], onCa
         )}
       </section>
 
-      {/* Pending Requests */}
+      {/* Pending requests */}
       <section style={{ marginBottom: 60 }}>
         <h3 style={{
           color: "#fff",
@@ -289,7 +289,7 @@ function BookingsView({ bookings = [], bookingRequests = [], wishlist = [], onCa
                   e.currentTarget.style.background = "rgba(255,255,255,0.03)";
                 }}
               >
-                {/* Experience Image */}
+                {/* Experience image */}
                 <div
                   onClick={() => handleExperienceClick(request.experience.id)}
                   style={{
@@ -312,7 +312,7 @@ function BookingsView({ bookings = [], bookingRequests = [], wishlist = [], onCa
                   />
                 </div>
 
-                {/* Request Details */}
+                {/* Request details */}
                 <div>
                   <div style={{
                     fontSize: 11,
@@ -378,7 +378,7 @@ function BookingsView({ bookings = [], bookingRequests = [], wishlist = [], onCa
                   </div>
                 </div>
 
-                {/* Cancel Button */}
+                {/* Cancel button */}
                 <button
                   onClick={() => onCancelRequest(request.id)}
                   style={{
@@ -412,7 +412,7 @@ function BookingsView({ bookings = [], bookingRequests = [], wishlist = [], onCa
         )}
       </section>
 
-      {/* Upcoming Experiences - Login Required */}
+      {/* Upcoming experiences - login required */}
       <section>
         <h3 style={{
           color: "#fff",
@@ -502,7 +502,7 @@ function BookingsView({ bookings = [], bookingRequests = [], wishlist = [], onCa
         )}
       </section>
 
-      {/* Responsive Styles */}
+      {/* Responsive styles */}
       <style>{`
         @media (max-width: 900px) {
           div[style*="gridTemplateColumns: 200px 1fr auto"] {

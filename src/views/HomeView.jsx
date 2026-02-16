@@ -20,7 +20,7 @@ function HomeView() {
 
         if (!mounted) return;
 
-        // Group experiences by category and get the first image from each
+        // Group experiences by category and get first image from each
         const categoryMap = {};
         
         if (Array.isArray(data)) {

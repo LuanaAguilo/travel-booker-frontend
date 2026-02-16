@@ -46,7 +46,6 @@ input, textarea, select {
   font-family: inherit;
 }
 
-/* Fix for sticky header */
 header[style*="position: sticky"] {
   position: -webkit-sticky !important;
   position: sticky !important;

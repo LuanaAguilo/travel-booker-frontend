@@ -144,7 +144,7 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
 
   return (
     <main style={{ padding: "20px 0 60px" }}>
-      {/* Back Navigation */}
+      {/* Back navigation */}
       <div style={{ maxWidth: 750, margin: "0 auto 30px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <Link 
           to={`/category/${encodeURIComponent(experience.category)}`}
@@ -162,7 +162,7 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
           ← Back to {experience.category}
         </Link>
 
-        {/* Next/Previous Navigation */}
+        {/* Next/previous navigation */}
         <div style={{ display: "flex", gap: 12 }}>
           <button
             onClick={handlePrevious}
@@ -233,7 +233,7 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
       </div>
 
       <div style={{ maxWidth: 750, margin: "0 auto" }}>
-        {/* Hero Image */}
+        {/* Hero image */}
         <div style={{
           height: 280,
           width: "100%",
@@ -253,7 +253,7 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
             }}
           />
           
-          {/* Wishlist Heart Button */}
+          {/* Wishlist heart button */}
           <button
             onClick={handleWishlistToggle}
             style={{
@@ -286,9 +286,9 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
           </button>
         </div>
 
-        {/* Content Grid */}
+        {/* Content grid */}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 300px", gap: 36 }}>
-          {/* Left Column: Details */}
+          {/* Left column: details */}
           <div>
             <div style={{ marginBottom: 10 }}>
               <span style={{
@@ -349,7 +349,7 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
               </p>
             </div>
 
-            {/* Detailed Itinerary */}
+            {/* Detailed itinerary */}
             {experience.detailedItinerary && experience.detailedItinerary.length > 0 && (
               <div style={{ marginBottom: 36 }}>
                 <h2 style={{ fontSize: 17, fontWeight: 400, letterSpacing: 0.5, marginBottom: 20, color: "#fff" }}>
@@ -376,7 +376,7 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
               </div>
             )}
 
-            {/* What's Included */}
+            {/* What's included */}
             {experience.included && experience.included.length > 0 && (
               <div style={{ marginBottom: 36 }}>
                 <h2 style={{ fontSize: 17, fontWeight: 400, letterSpacing: 0.5, marginBottom: 14, color: "#fff" }}>
@@ -393,7 +393,7 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
               </div>
             )}
 
-            {/* What's NOT Included */}
+            {/* What's not included */}
             {experience.notIncluded && experience.notIncluded.length > 0 && (
               <div style={{ marginBottom: 36 }}>
                 <h2 style={{ fontSize: 17, fontWeight: 400, letterSpacing: 0.5, marginBottom: 14, color: "#fff" }}>
@@ -410,7 +410,7 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
               </div>
             )}
 
-            {/* Special Features */}
+            {/* Special features */}
             {experience.specialFeatures && experience.specialFeatures.length > 0 && (
               <div style={{ marginBottom: 36 }}>
                 <h2 style={{ fontSize: 17, fontWeight: 400, letterSpacing: 0.5, marginBottom: 14, color: "#fff" }}>
@@ -427,7 +427,7 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
               </div>
             )}
 
-            {/* Booking Details */}
+            {/* Booking details */}
             {experience.bookingDetails && (
               <div style={{ marginBottom: 36 }}>
                 <h2 style={{ fontSize: 17, fontWeight: 400, letterSpacing: 0.5, marginBottom: 14, color: "#fff" }}>
@@ -463,7 +463,7 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
             )}
           </div>
 
-          {/* Right Column: Booking Card */}
+          {/* Right column: booking card */}
           <div>
             <div style={{
               position: "sticky",
@@ -571,7 +571,7 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
         </div>
       </div>
 
-      {/* Calendar Modal */}
+      {/* Calendar modal */}
       {showCalendarModal && (
         <BookingModal 
           experience={experience}
@@ -580,7 +580,7 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
         />
       )}
 
-      {/* Booking Request Form */}
+      {/* Booking request form */}
       {showBookingForm && (
         <BookingRequestForm 
           experience={experience}
@@ -590,7 +590,7 @@ function ExperienceDetailView({ onAddToWishlist, wishlist = [], onAddBookingRequ
         />
       )}
 
-      {/* Mobile Responsive */}
+      {/* Mobile responsive */}
       <style>{`
         @media (max-width: 1024px) {
           div[style*="gridTemplateColumns: 1fr 300px"] {

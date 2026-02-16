@@ -508,7 +508,7 @@ export default function App() {
             Madrid Signature
           </h1>
 
-          {/* Profile/Login Section */}
+          {/* Profile/login section */}
           <div style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>
             {user ? (
               <div style={{ position: "relative" }}>
@@ -541,7 +541,7 @@ export default function App() {
                   {user.name.charAt(0).toUpperCase()}
                 </button>
 
-                {/* Dropdown Menu */}
+                {/* Dropdown menu */}
                 {showProfileDropdown && (
                   <div style={{
                     position: "absolute",
@@ -728,7 +728,7 @@ export default function App() {
           gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
           gap: 48
         }}>
-          {/* About Section */}
+          {/* About section */}
           <div>
             <h3 style={{
               color: "#fff",
@@ -750,7 +750,7 @@ export default function App() {
             </p>
           </div>
 
-          {/* Quick Links */}
+          {/* Quick links */}
           <div>
             <h4 style={{
               color: "#fff",
@@ -788,7 +788,7 @@ export default function App() {
             </div>
           </div>
 
-          {/* Contact Info */}
+          {/* Contact info */}
           <div>
             <h4 style={{
               color: "#fff",
@@ -839,7 +839,7 @@ export default function App() {
         </div>
       </footer>
 
-      {/* Login Modal */}
+      {/* Login modal */}
       {showLoginModal && (
         <LoginModal 
           onClose={() => setShowLoginModal(false)}
