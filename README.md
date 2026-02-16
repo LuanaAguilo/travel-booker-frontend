@@ -1,12 +1,12 @@
 
-# 🥘🍷 MadVentures – Madrid Experience Booking App
+# Madrid Signature – Experience Booking App
 
 Book and live the best experiences in Madrid! 
 Explore gastronomy, culture, and adventure with a premium interface inspired by wine, wood, and authentic Madrid vibes.
 
 ---
 
-## ✨ Features
+## Features
 
 - **SPA in React** with smooth routing and navigation
 - **Filterable catalog** by categories: Gastronomy, Culture, Adventure
@@ -18,7 +18,7 @@ Explore gastronomy, culture, and adventure with a premium interface inspired by 
 
 ---
 
-## 🚀 Demo
+## Demo
 
 - [Live app (example)](https://yourdomain.com) <!-- Change to your real URL -->
 - [Frontend on GitHub](https://github.com/youruser/travel-booker-frontend)
@@ -26,7 +26,7 @@ Explore gastronomy, culture, and adventure with a premium interface inspired by 
 
 ---
 
-## 🖥️ Local setup
+## Local setup
 
 ```bash
 # Clone frontend
@@ -48,7 +48,7 @@ npm run dev
 
 ---
 
-## 🗂️ Main structure
+## Main structure
 
 - `src/components/` – Cards, grids, and reusable UI
 - `src/views/` – Main views: Home, Catalog, Bookings, Profile
@@ -57,7 +57,7 @@ npm run dev
 
 ---
 
-## 🖼️ Customizing experiences
+## Customizing experiences
 
 Edit your backend (`db.json` or `experiences.json`) and add free images in the `"image"` field of each experience.  
 Example:
@@ -75,7 +75,7 @@ Example:
 
 ---
 
-## 🛠️ Tech stack
+## Tech stack
 
 - React 19 + Vite
 - React Router v6
@@ -85,7 +85,7 @@ Example:
 
 ---
 
-## 📦 Useful scripts
+## Useful scripts
 
 - `npm run dev` – Start frontend in dev mode
 - `npm run build` – Build for production
@@ -93,7 +93,7 @@ Example:
 
 ---
 
-## 📄 License
+## License
 
 MIT.  
 Images from Unsplash/Pexels.
